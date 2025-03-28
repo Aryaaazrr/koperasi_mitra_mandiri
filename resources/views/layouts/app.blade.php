@@ -24,7 +24,7 @@
 </head>
 
 <body class="">
-    @include('partials.navbarLogin')
+    {{-- @include('partials.navbarLogin') --}}
     <main class="main-content  mt-0">
         @yield('content')
     </main>

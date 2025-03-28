@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         Schema::enableForeignKeyConstraints();
 
         $data = [
-            'Admin', 'Pengurus', 'Pegawai'
+            'Superadmin', 'Admin', 'Anggota'
         ];
 
         foreach ($data as $value) {
@@ -32,10 +32,22 @@ class DatabaseSeeder extends Seeder
         }
 
         User::factory()->create([
-            'nama'              => 'Admin',
-            'username'             => 'admin',
-            'password'          => Hash::make('admin123'),
+            'nama'              => 'Superadmin',
+            'username'          => 'superadmin',
+            'password'          => Hash::make('p4ssword'),
             'id_role'           => 1,
+        ]);
+        User::factory()->create([
+            'nama'              => 'Admin',
+            'username'          => 'admin',
+            'password'          => Hash::make('p4ssword'),
+            'id_role'           => 2,
+        ]);
+        User::factory()->create([
+            'nama'              => 'Anggota',
+            'username'          => 'anggota',
+            'password'          => Hash::make('p4ssword'),
+            'id_role'           => 3,
         ]);
     }
 }

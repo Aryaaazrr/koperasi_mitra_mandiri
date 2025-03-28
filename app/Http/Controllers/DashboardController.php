@@ -26,8 +26,9 @@ class DashboardController extends Controller
      */
     public function index(SHUChart $lineChart, TransaksiChart $pieChart, AnggotaChart $lineChartAnggota, JenisAnggotaChart $pieChartJenisAnggota, Request $request)
     {
-        $jumlahAnggota = Anggota::count();
-        $jumlahPegawai = User::where('id_role', '!=', '1')->count();
+        // $jumlahAnggota = Anggota::count();
+        $jumlahPegawai = User::where('id_role', '=', '2')->count();
+        $jumlahAnggota = User::where('id_role', '=', '3')->count();
         $jumlahSimpanan = Simpanan::count();
         $jumlahPinjaman = Pinjaman::count();
 
