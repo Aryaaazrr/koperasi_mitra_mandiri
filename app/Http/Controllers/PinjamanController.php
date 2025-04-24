@@ -97,7 +97,8 @@ class PinjamanController extends Controller
             DB::transaction(function () use ($request) {
                 $angsuran_pokok = ceil($request->nominal_pinjaman / $request->angsuran);
                 $bunga = ceil($request->nominal_pinjaman * $request->bunga_pinjaman / 100);
-                $subtotal_angsuran = ceil($angsuran_pokok + $bunga);
+                $subtotal_bunga = ceil($bunga / $request->angsuran);
+                $subtotal_angsuran = ceil($angsuran_pokok + $subtotal_bunga);
                 $sisa_lancar_angsuran = ceil($subtotal_angsuran * $request->angsuran);
                 $pendapatan = $this->hitungKas();
 
@@ -132,7 +133,7 @@ class PinjamanController extends Controller
                         $detail_pinjaman->id_pinjaman = $id_pinjaman;
                         $detail_pinjaman->id_users = Auth::id();
                         $detail_pinjaman->angsuran_pokok = round($angsuran_pokok);
-                        $detail_pinjaman->bunga = round($bunga);
+                        $detail_pinjaman->bunga = round($subtotal_bunga);
                         $detail_pinjaman->subtotal_angsuran = round($subtotal_angsuran);
                         $detail_pinjaman->angsuran_ke_ = $i;
 
