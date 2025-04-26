@@ -66,8 +66,8 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'ceklevel' => \App\Http\Middleware\CekLevel::class,
         'only_sign_in' => \App\Http\Middleware\Only_Sign_In::class,
+        'superadmin' => \App\Http\Middleware\Only_SuperAdmin::class,
         'admin' => \App\Http\Middleware\Only_Admin::class,
-        'pengurus' => \App\Http\Middleware\Only_Kepala_Koperasi::class,
-        'pegawai' => \App\Http\Middleware\Only_Pegawai::class,
+        'anggota' => \App\Http\Middleware\Only_Anggota::class,
     ];
 }
