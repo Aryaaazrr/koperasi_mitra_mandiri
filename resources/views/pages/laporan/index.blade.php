@@ -14,7 +14,7 @@
                         @if (Auth::user()->id_role == 1)
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal">+
                                 Tambah Data</button>
-                        @else
+                        @elseif (Auth::user()->id_role == 2)
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#basicModal">+ Tambah Data</button>
                         @endif
@@ -288,7 +288,7 @@
                     });
                 });
             </script>
-        @else
+        @elseif (Auth::user()->id_role == 2)
             <script>
                 $(document).ready(function() {
                     $('#myTable').DataTable({
@@ -343,6 +343,78 @@
                                         '</div>';
                                 }
                             },
+                        ],
+                        order: [
+                            [0, 'desc']
+                        ],
+                        rowCallback: function(row, data, index) {
+                            var dt = this.api();
+                            $(row).attr('data-id', data.id);
+                            $('td:eq(0)', row).html(dt.page.info().start + index + 1);
+                        }
+                    });
+
+                    $('#editModal').on('show.bs.modal', function(event) {
+                        var button = $(event.relatedTarget);
+                        var id_laporan = button.data('id');
+                        var keterangan = button.data('keterangan');
+                        var jumlah_uang = button.data('jumlah');
+                        var modal = $(this);
+
+                        modal.find('.modal-body #id_laporan').val(id_laporan);
+                        modal.find('.modal-body #keterangan').val(keterangan);
+                        modal.find('.modal-body #jumlah_uang').val(jumlah_uang);
+                    });
+
+                    $('.datatable-input').on('input', function() {
+                        var searchText = $(this).val().toLowerCase();
+
+                        $('.table tr').each(function() {
+                            var rowData = $(this).text().toLowerCase();
+                            if (rowData.indexOf(searchText) === -1) {
+                                $(this).hide();
+                            } else {
+                                $(this).show();
+                            }
+                        });
+                    });
+                });
+            </script>
+        @else
+            <script>
+                $(document).ready(function() {
+                    $('#myTable').DataTable({
+                        processing: true,
+                        ordering: true,
+                        responsive: true,
+                        serverSide: true,
+                        ajax: "{{ route('laporan') }}",
+                        columns: [{
+                                data: 'DT_RowIndex',
+                                name: 'DT_RowIndex'
+                            },
+                            {
+                                data: 'created_at',
+                                name: 'created_at'
+                            },
+                            {
+                                data: 'keterangan',
+                                name: 'keterangan'
+                            },
+                            {
+                                data: 'klasifikasi',
+                                name: 'klasifikasi'
+                            },
+                            {
+                                data: 'jumlah_uang',
+                                name: 'jumlah_uang',
+                                render: function(data) {
+                                    return parseInt(data).toLocaleString('id-ID', {
+                                        style: 'currency',
+                                        currency: 'IDR'
+                                    });
+                                }
+                            }
                         ],
                         order: [
                             [0, 'desc']

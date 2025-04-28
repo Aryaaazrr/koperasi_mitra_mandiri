@@ -71,18 +71,23 @@
                 <div class="pb-2 mt-4">
                     @if (Auth::user()->id_role == 1)
                         <a href='{{ route('superadmin.pinjaman') }}' class="btn btn-secondary">Kembali</a>
-                    @else
+                    @elseif (Auth::user()->id_role == 2)
                         <a href='{{ route('admin.pinjaman') }}' class="btn btn-secondary">Kembali</a>
+                    @else
+                        <a href='{{ route('pinjaman') }}' class="btn btn-secondary">Kembali</a>
                     @endif
                 </div>
                 <div class="pb-2 mt-4">
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#basicModal">Bayar
-                        Pinjaman</button>
+                    @if (Auth::user()->id_role != 3)
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                            data-bs-target="#basicModal">Bayar
+                            Pinjaman</button>
+                    @endif
                     @if (Auth::user()->id_role == 1)
                         <a href="{{ route('superadmin.pinjaman.export', ['id' => $angsuran->id_pinjaman]) }}"
                             class="btn btn-info">Cetak
                             Laporan</a>
-                    @else
+                    @elseif (Auth::user()->id_role == 2)
                         <a href="{{ route('admin.pinjaman.export', ['id' => $angsuran->id_pinjaman]) }}"
                             class="btn btn-info">Cetak
                             Laporan</a>
@@ -157,7 +162,84 @@
                     responsive: true,
                     serverSide: true,
                     ajax: {
-                        url: '{{ route('superadmin.pinjaman.show', ['id' => ':id']) }}'.replace(':id', window.location
+                        url: '{{ route('superadmin.pinjaman.show', ['id' => ':id']) }}'.replace(':id', window
+                            .location
+                            .href.split('/').pop()),
+                        method: 'GET',
+                        dataSrc: 'data'
+                    },
+                    columns: [{
+                            data: 'angsuran_ke_',
+                            name: 'angsuran_ke_'
+                        },
+                        {
+                            data: 'tanggal_jatuh_tempo',
+                            name: 'tanggal_jatuh_tempo'
+                        },
+                        {
+                            data: 'angsuran_pokok',
+                            name: 'angsuran_pokok',
+                            render: function(data) {
+                                return data !== null ? parseInt(data).toLocaleString('id-ID', {
+                                    style: 'currency',
+                                    currency: 'IDR'
+                                }) : '-';
+                            }
+                        },
+                        {
+                            data: 'bunga',
+                            name: 'bunga',
+                            render: function(data) {
+                                return data !== null ? parseInt(data).toLocaleString('id-ID', {
+                                    style: 'currency',
+                                    currency: 'IDR'
+                                }) : '-';
+                            }
+                        },
+                        {
+                            data: 'status_pelunasan',
+                            name: 'status_pelunasan'
+                        },
+                        {
+                            data: 'keterangan',
+                            name: 'keterangan',
+                            render: function(data, type, row) {
+                                return data ? data : '-';
+                            }
+                        },
+                    ],
+                    rowCallback: function(row, data, index) {
+                        var dt = this.api();
+                        $(row).attr('data-id', data.id);
+                        $('td:eq(0)', row).html(dt.page.info().start + index + 1);
+                    }
+                });
+
+                $('.datatable-input').on('input', function() {
+                    var searchText = $(this).val().toLowerCase();
+
+                    $('.table tr').each(function() {
+                        var rowData = $(this).text().toLowerCase();
+                        if (rowData.indexOf(searchText) === -1) {
+                            $(this).hide();
+                        } else {
+                            $(this).show();
+                        }
+                    });
+                });
+            });
+        </script>
+    @elseif (Auth::user()->id_role == 2)
+        <script>
+            $(document).ready(function() {
+                $('#myTable').DataTable({
+                    processing: true,
+                    ordering: true,
+                    responsive: true,
+                    serverSide: true,
+                    ajax: {
+                        url: '{{ route('admin.pinjaman.show', ['id' => ':id']) }}'.replace(':id', window
+                            .location
                             .href.split('/').pop()),
                         method: 'GET',
                         dataSrc: 'data'
@@ -232,7 +314,7 @@
                     responsive: true,
                     serverSide: true,
                     ajax: {
-                        url: '{{ route('admin.pinjaman.show', ['id' => ':id']) }}'.replace(':id', window
+                        url: '{{ route('pinjaman.show', ['id' => ':id']) }}'.replace(':id', window
                             .location
                             .href.split('/').pop()),
                         method: 'GET',

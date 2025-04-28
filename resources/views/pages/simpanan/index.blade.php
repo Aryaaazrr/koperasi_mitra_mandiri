@@ -11,7 +11,7 @@
                 <div class="pb-2">
                     @if (Auth::user()->id_role == 1)
                         <a href='{{ route('superadmin.simpanan.create') }}' class="btn btn-primary">+ Tambah Data</a>
-                    @else
+                    @elseif (Auth::user()->id_role == 2)
                         <a href='{{ route('admin.simpanan.create') }}' class="btn btn-primary">+ Tambah Data</a>
                     @endif
                 </div>

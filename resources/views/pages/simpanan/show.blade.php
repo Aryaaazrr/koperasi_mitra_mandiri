@@ -69,7 +69,7 @@
                                 <th class="text-center">Simpanan Wajib</th>
                                 <th class="text-center">Simpanan Sukarela</th>
                                 <th class="text-center">Saldo</th>
-                                @if (Auth::user()->id_role == 2)
+                                @if (Auth::user()->id_role != 3)
                                     <th class="text-center">Aksi</th>
                                 @endif
                             </tr>
@@ -82,16 +82,21 @@
                     <div class="pb-2 mt-4">
                         @if (Auth::user()->id_role == 1)
                             <a href="{{ route('superadmin.simpanan') }}" class="btn btn-secondary">Kembali</a>
-                        @else
+                        @elseif (Auth::user()->id_role == 2)
                             <a href="{{ route('admin.simpanan') }}" class="btn btn-secondary">Kembali</a>
+                        @else
+                            <a href="{{ route('simpanan') }}" class="btn btn-secondary">Kembali</a>
                         @endif
                     </div>
                     <div class="pb-2 mt-4">
                         @if (Auth::user()->id_role == 1)
                             <a href="{{ route('superadmin.simpanan.export', ['id' => $simpanan->id_simpanan]) }}"
                                 class="btn btn-info">Cetak Laporan</a>
+                        @elseif (Auth::user()->id_role == 2)
+                        <a href="{{ route('admin.simpanan.export', ['id' => $simpanan->id_simpanan]) }}"
+                            class="btn btn-info">Cetak Laporan</a>
                         @else
-                            <a href="{{ route('admin.simpanan.export', ['id' => $simpanan->id_simpanan]) }}"
+                            <a href="{{ route('simpanan.export', ['id' => $simpanan->id_simpanan]) }}"
                                 class="btn btn-info">Cetak Laporan</a>
                         @endif
                     </div>
@@ -125,7 +130,8 @@
                         processing: true,
                         serverSide: true,
                         ajax: {
-                            url: '{{ route('superadmin.simpanan.show', ['id' => ':id']) }}'.replace(':id', window.location
+                            url: '{{ route('superadmin.simpanan.show', ['id' => ':id']) }}'.replace(':id', window
+                                .location
                                 .href.split('/').pop()),
                             method: 'GET',
                             dataSrc: 'data'
@@ -209,7 +215,8 @@
 
                                     return '<div class="row justify-content-center">' +
                                         '<div class="col-auto">' +
-                                        '<form action="{{ route('superadmin.simpanan.update', '') }}/' + data
+                                        '<form action="{{ route('superadmin.simpanan.update', '') }}/' +
+                                        data
                                         .id_simpanan +
                                         '" method="POST" enctype="multipart/form-data">' +
                                         '@csrf' +
@@ -283,7 +290,8 @@
                                         '</div>' +
                                         '</div>' +
                                         '</form>' +
-                                        '<a href="{{ route('superadmin.simpanan.destroy.detail', '') }}/' + data.id +
+                                        '<a href="{{ route('superadmin.simpanan.destroy.detail', '') }}/' +
+                                        data.id +
                                         '" style="font-size: 10pt" class="btn btn-danger m-1 delete-btn" ' +
                                         'data-id="' + data.id +
                                         '">Hapus</a>' +
@@ -315,7 +323,7 @@
                     });
                 });
             </script>
-        @else
+        @elseif (Auth::user()->id_role == 2)
             <script>
                 $(document).ready(function() {
                     $('#myTable').DataTable({
@@ -486,6 +494,93 @@
 
                                 }
 
+                            }
+                        ],
+                        rowCallback: function(row, data, index) {
+                            var dt = this.api();
+                            $(row).attr('data-id', data.id);
+                            $('td:eq(0)', row).html(dt.page.info().start + index + 1);
+                        }
+                    });
+
+                    $('.datatable-input').on('input', function() {
+                        var searchText = $(this).val().toLowerCase();
+
+                        $('.table tr').each(function() {
+                            var rowData = $(this).text().toLowerCase();
+                            if (rowData.indexOf(searchText) === -1) {
+                                $(this).hide();
+                            } else {
+                                $(this).show();
+                            }
+                        });
+                    });
+                });
+            </script>
+        @else
+            <script>
+                $(document).ready(function() {
+                    $('#myTable').DataTable({
+                        processing: true,
+                        serverSide: true,
+                        ajax: {
+                            url: '{{ route('simpanan.show', ['id' => ':id']) }}'.replace(':id', window
+                                .location
+                                .href.split('/').pop()),
+                            method: 'GET',
+                            dataSrc: 'data'
+                        },
+                        columns: [{
+                                data: 'DT_RowIndex',
+                                name: 'DT_RowIndex'
+                            },
+                            {
+                                data: 'created_at',
+                                name: 'created_at'
+                            },
+                            {
+                                data: 'jenis_transaksi',
+                                name: 'jenis_transaksi'
+                            },
+                            {
+                                data: 'simpanan_pokok',
+                                name: 'simpanan_pokok',
+                                render: function(data) {
+                                    return data !== null ? parseInt(data).toLocaleString('id-ID', {
+                                        style: 'currency',
+                                        currency: 'IDR'
+                                    }) : '-';
+                                }
+                            },
+                            {
+                                data: 'simpanan_wajib',
+                                name: 'simpanan_wajib',
+                                render: function(data) {
+                                    return data !== null ? parseInt(data).toLocaleString('id-ID', {
+                                        style: 'currency',
+                                        currency: 'IDR'
+                                    }) : '-';
+                                }
+                            },
+                            {
+                                data: 'simpanan_sukarela',
+                                name: 'simpanan_sukarela',
+                                render: function(data) {
+                                    return data !== null ? parseInt(data).toLocaleString('id-ID', {
+                                        style: 'currency',
+                                        currency: 'IDR'
+                                    }) : '-';
+                                }
+                            },
+                            {
+                                data: 'subtotal_saldo',
+                                name: 'subtotal_saldo',
+                                render: function(data) {
+                                    return parseInt(data).toLocaleString('id-ID', {
+                                        style: 'currency',
+                                        currency: 'IDR'
+                                    });
+                                }
                             }
                         ],
                         rowCallback: function(row, data, index) {
