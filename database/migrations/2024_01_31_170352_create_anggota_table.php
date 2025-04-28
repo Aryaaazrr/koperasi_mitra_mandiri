@@ -13,12 +13,9 @@ return new class extends Migration
     {
         Schema::create('anggota', function (Blueprint $table) {
             $table->id('id_anggota');
-            $table->string('nik')->unique();
+            $table->unsignedBigInteger('id_users')->required();
+            $table->foreign('id_users')->references('id_users')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->string('no_anggota')->unique();
-            $table->string('nama');
-            $table->enum('jenis_kelamin', ['Laki-Laki', 'Perempuan'])->nullable();
-            $table->string('alamat')->nullable();
-            $table->string('no_telp')->nullable();
             $table->string('pekerjaan')->nullable();
             $table->enum('jenis_anggota', ['Pendiri', 'Biasa'])->nullable();
             $table->timestamps();
