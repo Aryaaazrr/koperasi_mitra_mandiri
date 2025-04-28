@@ -169,6 +169,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('pinjaman', [PinjamanController::class, 'index'])->name('pinjaman');
         Route::get('pinjaman/add', [PinjamanController::class, 'create'])->name('pinjaman.create');
         Route::post('pinjaman/add', [PinjamanController::class, 'store'])->name('pinjaman.store');
+        Route::get('pinjaman/belum-lunas', [PinjamanController::class, 'belumLunas'])->name('pinjaman.belum.lunas');
+        Route::get('pinjaman/lunas', [PinjamanController::class, 'lunas'])->name('pinjaman.lunas');
         Route::get('pinjaman/view/{id}', [PinjamanController::class, 'show'])->name('pinjaman.show');
         Route::get('pinjaman/edit/{id}', [PinjamanController::class, 'edit'])->name('pinjaman.edit');
         // Route::get('pinjaman/kredit', [PinjamanController::class, 'edit'])->name('pinjaman.edit');
