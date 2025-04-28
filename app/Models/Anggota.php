@@ -16,6 +16,11 @@ class Anggota extends Model
         'updated_at' => 'datetime',
     ];
 
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'id_users', 'id_users');
+    }
+
     public function simpanan()
     {
         return $this->hasOne(Simpanan::class, 'id_anggota', 'id_anggota');
