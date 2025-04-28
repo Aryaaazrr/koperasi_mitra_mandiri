@@ -20,7 +20,7 @@ class RekapTransaksiController extends Controller
      */
     public function index(Request $request)
     {
-        $query = HistoryTransaksi::with('users', 'anggota', 'detail_simpanan', 'pinjaman', 'detail_pinjaman')->orderBy('created_at', 'desc');
+        $query = HistoryTransaksi::with('users', 'anggota.users', 'detail_simpanan', 'pinjaman', 'detail_pinjaman')->orderBy('created_at', 'desc');
 
         $jumlahMasuk = 0.00;
         $jumlahKeluar = 0.00;
@@ -31,7 +31,7 @@ class RekapTransaksiController extends Controller
             $startDate = Carbon::parse($request->input('start_date'))->startOfDay();
             $endDate = Carbon::parse($request->input('end_date'))->endOfDay();
             $query->whereBetween('created_at', [$startDate, $endDate]);
-        } 
+        }
 
         $rekap = $query->get();
 
@@ -104,7 +104,7 @@ class RekapTransaksiController extends Controller
                 $rowData[] = [
                     'DT_RowIndex' => $iteration,
                     'nama_pengguna' => $item->users->nama,
-                    'anggota' => $item->anggota->nama,
+                    'anggota' => $item->anggota->users->nama,
                     'jenis_transaksi' => $jenis_transaksi,
                     'tanggal' => $item->created_at->format('d-m-Y h:i:s'),
                     'jumlah_masuk' => $jumlahMasuk,

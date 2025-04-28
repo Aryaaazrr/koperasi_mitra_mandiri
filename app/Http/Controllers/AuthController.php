@@ -35,9 +35,9 @@ class AuthController extends Controller
                 $request->session()->regenerate();
 
                 if (Auth::user()->id_role == '1') {
-                    return redirect('admin/dashboard');
+                    return redirect('superadmin/dashboard');
                 } elseif (Auth::user()->id_role == '2') {
-                    return redirect('pengurus/dashboard');
+                    return redirect('admin/dashboard');
                 } else {
                     return redirect('dashboard');
                 }

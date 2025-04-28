@@ -113,11 +113,11 @@ class ProfileController extends Controller
 
         if ($users->save()) {
             if (Auth::user()->id_role == 1) {
-                return redirect()->route('admin.profile')->with('success', 'Data Profile berhasil diperbarui.');
+                return redirect()->route('superadmin.profile')->with('success', 'Data Profile berhasil diperbarui.');
             } elseif (Auth::user()->id_role == 2) {
-                return redirect()->route('profile')->with('success', 'Data Profile berhasil diperbarui.');
+                return redirect()->route('admin.profile')->with('success', 'Data Profile berhasil diperbarui.');
             } else {
-                return redirect()->route('pegawai.profile')->with('success', 'Data Profile berhasil diperbarui.');
+                return redirect()->route('profile')->with('success', 'Data Profile berhasil diperbarui.');
             }
         } else {
             return response()->json(['message' => 'Terjadi kesalahan saat menambahkan data'], 500);

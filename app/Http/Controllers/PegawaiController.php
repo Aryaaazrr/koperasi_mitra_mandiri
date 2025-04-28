@@ -23,7 +23,7 @@ class PegawaiController extends Controller
      */
     public function index(Request $request)
     {
-        $users = User::where('id_role', '!=', 1)->with('role')->orderBy('created_at', 'desc')->get();
+        $users = User::where('id_role', '=', 2)->with('role')->orderBy('created_at', 'desc')->get();
 
         if ($request->ajax()) {
             return DataTables::of($users)
@@ -57,7 +57,7 @@ class PegawaiController extends Controller
             'alamat' => 'required',
             'noTelp' => 'required|numeric',
             'password' => 'required|min:8',
-            'role' => 'required|in:2,3',
+            'role' => 'required|in:2',
         ]);
 
         if ($validator->fails()) {
@@ -78,7 +78,7 @@ class PegawaiController extends Controller
 
         if ($pegawai->save()) {
             if (Auth::user()->id_role == 1) {
-                return redirect()->route('admin.pegawai')->with('success', 'Data pegawai berhasil disimpan.');
+                return redirect()->route('superadmin.pegawai')->with('success', 'Data pegawai berhasil disimpan.');
             } elseif (Auth::user()->id_role == 2) {
                 return redirect()->route('pegawai')->with('success', 'Data pegawai berhasil disimpan.');
             } else {
@@ -125,7 +125,7 @@ class PegawaiController extends Controller
                 'jeniskelamin' => 'required|in:Laki-Laki,Perempuan',
                 'alamat' => 'required',
                 'noTelp' => 'required|numeric',
-                'role' => 'required|in:2,3',
+                'role' => 'required|in:2',
             ]);
 
 
@@ -173,7 +173,7 @@ class PegawaiController extends Controller
 
         if ($pegawai->save()) {
             if (Auth::user()->id_role == 1) {
-                return redirect()->route('admin.pegawai')->with('success', 'Data pegawai berhasil diperbarui.');
+                return redirect()->route('superadmin.pegawai')->with('success', 'Data pegawai berhasil diperbarui.');
             } elseif (Auth::user()->id_role == 2) {
                 return redirect()->route('pegawai')->with('success', 'Data pegawai berhasil diperbarui.');
             } else {
@@ -193,11 +193,11 @@ class PegawaiController extends Controller
         if ($users) {
             $users->delete();
             if (Auth::user()->id_role == 1) {
-                return redirect()->route('admin.pegawai')->with('success', 'Data pegawai berhasil dihapus.');
+                return redirect()->route('superadmin.pegawai')->with('success', 'Data pegawai berhasil dihapus.');
             } elseif (Auth::user()->id_role == 2) {
-                return redirect()->route('pegawai')->with('success', 'Data pegawai berhasil dihapus.');
+                return redirect()->route('admin.pegawai')->with('success', 'Data pegawai berhasil dihapus.');
             } else {
-                return redirect()->route('pegawai.pegawai')->with('success', 'Data pegawai berhasil dihapus.');
+                return redirect()->route('pegawai')->with('success', 'Data pegawai berhasil dihapus.');
             }
         } else {
             return response()->json(['message' => 'Terjadi kesalahan saat menghapus data'], 500);
@@ -206,9 +206,9 @@ class PegawaiController extends Controller
 
     public function export()
     {
-        $data = User::where('id_role', '=', 3)->count();
+        $data = User::where('id_role', '=', 2)->count();
         if ($data != 0) {
-            $users = User::where('id_role', 3)->get();
+            $users = User::where('id_role', 2)->get();
             $tahun = Carbon::now()->format('Y');
             $html = view('pages.report.pegawai', compact('users', 'tahun'))->render();
 
@@ -221,7 +221,7 @@ class PegawaiController extends Controller
             $dompdf->setPaper('A4', 'portrait');
             $dompdf->render();
 
-            $dompdf->stream('Pegawai Koperasi.pdf');
+            $dompdf->stream('Pegawai Koperasi Mitra Mandiri.pdf');
         } else {
             return back()->withErrors(['error' => 'Data Pegawai masih kosong. Silahkan coba kembali.']);
         }

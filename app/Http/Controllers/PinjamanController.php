@@ -30,7 +30,7 @@ class PinjamanController extends Controller
 
     public function belumLunas(Request $request)
     {
-        $pinjaman = Pinjaman::where('status_pinjaman', 'Belum Lunas')->with('anggota')->get();
+        $pinjaman = Pinjaman::where('status_pinjaman', 'Belum Lunas')->with('anggota.users')->get();
 
         if ($request->ajax()) {
             return DataTables::of($pinjaman)
@@ -38,7 +38,7 @@ class PinjamanController extends Controller
                     return $pinjaman->id_pinjaman;
                 })
                 ->addColumn('nama', function ($pinjaman) {
-                    return $pinjaman->anggota->nama;
+                    return $pinjaman->anggota->users->nama;
                 })
                 ->toJson();
         }
@@ -46,7 +46,7 @@ class PinjamanController extends Controller
 
     public function Lunas(Request $request)
     {
-        $pinjaman = Pinjaman::where('status_pinjaman', 'Lunas')->with('anggota')->get();
+        $pinjaman = Pinjaman::where('status_pinjaman', 'Lunas')->with('anggota.users')->get();
 
         if ($request->ajax()) {
             return DataTables::of($pinjaman)
@@ -54,7 +54,7 @@ class PinjamanController extends Controller
                     return $pinjaman->id_pinjaman;
                 })
                 ->addColumn('nama', function ($pinjaman) {
-                    return $pinjaman->anggota->nama;
+                    return $pinjaman->anggota->users->nama;
                 })
                 ->toJson();
         }
@@ -149,8 +149,8 @@ class PinjamanController extends Controller
                 }
             });
 
-            if (Auth::user()->id_role == 2) {
-                return redirect()->route('pinjaman')->with('success', 'Data pinjaman berhasil ditambahkan.');
+            if (Auth::user()->id_role == 1) {
+                return redirect()->route('superadmin.pinjaman')->with('success', 'Data pinjaman berhasil ditambahkan.');
             } else {
                 return redirect()->route('pegawai.pinjaman')->with('success', 'Data pinjaman berhasil ditambahkan.');
             }
@@ -164,7 +164,7 @@ class PinjamanController extends Controller
      */
     public function show(Request $request, string $id)
     {
-        $pinjaman = Pinjaman::where('id_pinjaman', $id)->with(['anggota', 'detail_pinjaman'])->first();
+        $pinjaman = Pinjaman::where('id_pinjaman', $id)->with(['anggota.users', 'detail_pinjaman'])->first();
         $detail_pinjaman = DetailPinjaman::where('id_pinjaman', $id)->with(['pinjaman', 'users'])->get();
         $rowData = [];
 
@@ -375,7 +375,7 @@ class PinjamanController extends Controller
     {
         $pinjaman = Pinjaman::where('id_pinjaman', $id)->first();
         $pinjaman->delete();
-        return redirect()->route('pinjaman')->with('success', 'Pinjaman berhasil dihapus');
+        return redirect()->route('superadmin.pinjaman')->with('success', 'Pinjaman berhasil dihapus');
     }
 
     public function export($id)

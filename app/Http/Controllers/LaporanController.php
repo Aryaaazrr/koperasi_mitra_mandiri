@@ -130,7 +130,7 @@ class LaporanController extends Controller
             return back()->withErrors(['error' => 'Pendapatan bunga tidak dapat dihapus']);
         }
         $laporan->delete();
-        return redirect()->route('laporan')->with('success', 'Data Laporan berhasil dihapus');
+        return redirect()->route('superadmin.laporan')->with('success', 'Data Laporan berhasil dihapus');
     }
 
     public function export(Request $request)

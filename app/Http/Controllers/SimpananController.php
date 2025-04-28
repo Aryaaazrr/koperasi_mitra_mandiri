@@ -22,26 +22,51 @@ class SimpananController extends Controller
 
     public function index(Request $request)
     {
-        $simpanan = simpanan::with('anggota')->get();
+        if (Auth::user()->id_role != 3) {
+            $simpanan = simpanan::with('anggota.users')->get();
 
-        if ($request->ajax()) {
-            return DataTables::of($simpanan)
-                ->addColumn('DT_RowIndex', function ($simpanan) {
-                    return $simpanan->id_users;
-                })
-                ->addColumn('no_anggota', function ($simpanan) {
-                    return $simpanan->anggota->no_anggota;
-                })
-                ->addColumn('jenis_anggota', function ($simpanan) {
-                    return $simpanan->anggota->jenis_anggota;
-                })
-                ->addColumn('nama', function ($simpanan) {
-                    return $simpanan->anggota->nama;
-                })
-                ->addColumn('alamat', function ($simpanan) {
-                    return $simpanan->anggota->alamat;
-                })
-                ->toJson();
+            if ($request->ajax()) {
+                return DataTables::of($simpanan)
+                    ->addColumn('DT_RowIndex', function ($simpanan) {
+                        return $simpanan->id_users;
+                    })
+                    ->addColumn('no_anggota', function ($simpanan) {
+                        return $simpanan->anggota->no_anggota;
+                    })
+                    ->addColumn('jenis_anggota', function ($simpanan) {
+                        return $simpanan->anggota->jenis_anggota;
+                    })
+                    ->addColumn('nama', function ($simpanan) {
+                        return $simpanan->anggota->users->nama;
+                    })
+                    ->addColumn('alamat', function ($simpanan) {
+                        return $simpanan->anggota->users->alamat;
+                    })
+                    ->toJson();
+            }
+        } else {
+            $user = Auth::user()->anggota->id_anggota;
+            $simpanan = simpanan::where('id_anggota', $user)->with('anggota.users')->get();
+
+            if ($request->ajax()) {
+                return DataTables::of($simpanan)
+                    ->addColumn('DT_RowIndex', function ($simpanan) {
+                        return $simpanan->id_users;
+                    })
+                    ->addColumn('no_anggota', function ($simpanan) {
+                        return $simpanan->anggota->no_anggota;
+                    })
+                    ->addColumn('jenis_anggota', function ($simpanan) {
+                        return $simpanan->anggota->jenis_anggota;
+                    })
+                    ->addColumn('nama', function ($simpanan) {
+                        return $simpanan->anggota->users->nama;
+                    })
+                    ->addColumn('alamat', function ($simpanan) {
+                        return $simpanan->anggota->users->alamat;
+                    })
+                    ->toJson();
+            }
         }
 
         return view('pages.simpanan.index');
@@ -128,10 +153,10 @@ class SimpananController extends Controller
                 }
             });
 
-            if (Auth::user()->id_role == 2) {
-                return redirect()->route('simpanan')->with('success', 'Data simpanan berhasil ditambahkan.');
+            if (Auth::user()->id_role == 1) {
+                return redirect()->route('superadmin.simpanan')->with('success', 'Data simpanan berhasil ditambahkan.');
             } else {
-                return redirect()->route('pegawai.simpanan')->with('success', 'Data simpanan berhasil ditambahkan.');
+                return redirect()->route('admin.simpanan')->with('success', 'Data simpanan berhasil ditambahkan.');
             }
         } catch (\Exception $e) {
             return back()->withErrors(['error' => $e->getMessage()]);
@@ -143,7 +168,7 @@ class SimpananController extends Controller
      */
     public function show(Request $request, string $id)
     {
-        $simpanan = simpanan::where('id_simpanan', '=', $id)->with('anggota')->first();
+        $simpanan = simpanan::where('id_simpanan', '=', $id)->with('anggota.users')->first();
         $detail_simpanan = DetailSimpanan::where('id_simpanan', $id)->with(['simpanan'])->orderBy('created_at', 'desc')->get();
         $setor = DetailSimpanan::where('id_simpanan', $id)
             ->where('jenis_transaksi', '=', 'Setor')
@@ -454,10 +479,10 @@ class SimpananController extends Controller
                     }
                 });
 
-                if (Auth::user()->id_role == 2) {
-                    return redirect()->route('simpanan')->with('success', 'Data simpanan berhasil disimpan.');
+                if (Auth::user()->id_role == 1) {
+                    return redirect()->route('superadmin.simpanan')->with('success', 'Data simpanan berhasil disimpan.');
                 } else {
-                    return redirect()->route('pegawai.simpanan')->with('success', 'Data simpanan berhasil disimpan.');
+                    return redirect()->route('admin.simpanan')->with('success', 'Data simpanan berhasil disimpan.');
                 }
             } catch (\Exception $e) {
                 return back()->withErrors(['error' => $e->getMessage()]);
@@ -472,7 +497,7 @@ class SimpananController extends Controller
     {
         $detail = simpanan::where('id_simpanan', $id)->first();
         $detail->delete();
-        return redirect()->route('simpanan')->with('success', 'Simpanan berhasil dihapus');
+        return redirect()->route('superadmin.simpanan')->with('success', 'Simpanan berhasil dihapus');
     }
 
     /**
