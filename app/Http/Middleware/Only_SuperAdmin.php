@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class Only_Kepala_Koperasi
+class Only_SuperAdmin
 {
     /**
      * Handle an incoming request.
@@ -16,8 +16,8 @@ class Only_Kepala_Koperasi
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->id_role != '2') {
-            if (Auth::user()->id_role == '1') {
+        if (Auth::user()->id_role != '1') {
+            if (Auth::user()->id_role == '2') {
                 return redirect('admin/dashboard');
             } else {
                 return redirect('dashboard');

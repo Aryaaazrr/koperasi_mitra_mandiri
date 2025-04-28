@@ -18,9 +18,12 @@ class Only_Sign_In
     {
         if (Auth::user()) {
             if (Auth::user()->id_role == '1') {
-                return redirect('admin/dashboard');
+                return redirect('superadmin/dashboard');
             }
             if (Auth::user()->id_role == '2') {
+                return redirect('admin/dashboard');
+            }
+            if (Auth::user()->id_role == '3') {
                 return redirect('dashboard');
             }
         }

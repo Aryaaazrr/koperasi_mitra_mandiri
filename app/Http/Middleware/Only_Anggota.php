@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class Only_Pegawai
+class Only_Anggota
 {
     /**
      * Handle an incoming request.
@@ -18,9 +18,9 @@ class Only_Pegawai
     {
         if (Auth::user()->id_role != '3') {
             if (Auth::user()->id_role == '1') {
-                return redirect('admin/dashboard');
+                return redirect('superadmin/dashboard');
             } else {
-                return redirect('pengurus/dashboard');                
+                return redirect('admin/dashboard');
             }
         }
         return $next($request);
