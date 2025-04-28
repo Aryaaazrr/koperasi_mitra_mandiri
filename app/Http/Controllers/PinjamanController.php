@@ -30,33 +30,65 @@ class PinjamanController extends Controller
 
     public function belumLunas(Request $request)
     {
-        $pinjaman = Pinjaman::where('status_pinjaman', 'Belum Lunas')->with('anggota.users')->get();
+        if (Auth::user()->id_role != 3) {
+            $pinjaman = Pinjaman::where('status_pinjaman', 'Belum Lunas')->with('anggota.users')->get();
 
-        if ($request->ajax()) {
-            return DataTables::of($pinjaman)
-                ->addColumn('DT_RowIndex', function ($pinjaman) {
-                    return $pinjaman->id_pinjaman;
-                })
-                ->addColumn('nama', function ($pinjaman) {
-                    return $pinjaman->anggota->users->nama;
-                })
-                ->toJson();
+            if ($request->ajax()) {
+                return DataTables::of($pinjaman)
+                    ->addColumn('DT_RowIndex', function ($pinjaman) {
+                        return $pinjaman->id_pinjaman;
+                    })
+                    ->addColumn('nama', function ($pinjaman) {
+                        return $pinjaman->anggota->users->nama;
+                    })
+                    ->toJson();
+            }
+        } else {
+            $user = Auth::user()->anggota->id_anggota;
+            $pinjaman = Pinjaman::where('status_pinjaman', 'Belum Lunas')->where('id_anggota', $user)->with('anggota.users')->get();
+
+            if ($request->ajax()) {
+                return DataTables::of($pinjaman)
+                    ->addColumn('DT_RowIndex', function ($pinjaman) {
+                        return $pinjaman->id_pinjaman;
+                    })
+                    ->addColumn('nama', function ($pinjaman) {
+                        return $pinjaman->anggota->users->nama;
+                    })
+                    ->toJson();
+            }
         }
     }
 
     public function Lunas(Request $request)
     {
-        $pinjaman = Pinjaman::where('status_pinjaman', 'Lunas')->with('anggota.users')->get();
+        if (Auth::user()->id_role != 3) {
+            $pinjaman = Pinjaman::where('status_pinjaman', 'Lunas')->with('anggota.users')->get();
 
-        if ($request->ajax()) {
-            return DataTables::of($pinjaman)
-                ->addColumn('DT_RowIndex', function ($pinjaman) {
-                    return $pinjaman->id_pinjaman;
-                })
-                ->addColumn('nama', function ($pinjaman) {
-                    return $pinjaman->anggota->users->nama;
-                })
-                ->toJson();
+            if ($request->ajax()) {
+                return DataTables::of($pinjaman)
+                    ->addColumn('DT_RowIndex', function ($pinjaman) {
+                        return $pinjaman->id_pinjaman;
+                    })
+                    ->addColumn('nama', function ($pinjaman) {
+                        return $pinjaman->anggota->users->nama;
+                    })
+                    ->toJson();
+            }
+        } else {
+            $user = Auth::user()->anggota->id_anggota;
+            $pinjaman = Pinjaman::where('status_pinjaman', 'Lunas')->where('id_anggota', $user)->with('anggota.users')->get();
+
+            if ($request->ajax()) {
+                return DataTables::of($pinjaman)
+                    ->addColumn('DT_RowIndex', function ($pinjaman) {
+                        return $pinjaman->id_pinjaman;
+                    })
+                    ->addColumn('nama', function ($pinjaman) {
+                        return $pinjaman->anggota->users->nama;
+                    })
+                    ->toJson();
+            }
         }
     }
 
