@@ -12,7 +12,7 @@
                 <div class="d-flex justify-content-between">
                     <div class="pb-2">
                         @if (Auth::user()->id_role == 1)
-                            <a href='{{ route('admin.pegawai.create') }}' class="btn btn-primary">+ Tambah Data</a>
+                            <a href='{{ route('superadmin.pegawai.create') }}' class="btn btn-primary">+ Tambah Data</a>
                         @elseif (Auth::user()->id_role == 2)
                             <a href='{{ route('pegawai.create') }}' class="btn btn-primary">+ Tambah Data</a>
                         @else
@@ -21,7 +21,7 @@
                     </div>
                     <div class="pb-2">
                         @if (Auth::user()->id_role == 1)
-                            <a href='{{ route('admin.pegawai.export') }}' class="btn btn-secondary">Cetak PDF</a>
+                            <a href='{{ route('superadmin.pegawai.export') }}' class="btn btn-secondary">Cetak PDF</a>
                         @elseif (Auth::user()->id_role == 2)
                             <a href='{{ route('pegawai.export') }}' class="btn btn-secondary">Cetak PDF</a>
                         @else
@@ -79,7 +79,7 @@
                         ordering: true,
                         responsive: true,
                         serverSide: true,
-                        ajax: "{{ route('admin.pegawai') }}",
+                        ajax: "{{ route('superadmin.pegawai') }}",
                         columns: [{
                                 data: 'DT_RowIndex',
                                 name: 'DT_RowIndex'
@@ -109,11 +109,11 @@
                                 render: function(data) {
                                     return '<div class="row justify-content-center">' +
                                         '<div class="col-auto">' +
-                                        '<a href="{{ route('admin.pegawai.edit', '') }}/' + data.id_users +
+                                        '<a href="{{ route('superadmin.pegawai.edit', '') }}/' + data.id_users +
                                         '" style="font-size: 10pt" class="btn btn-info m-1 edit-btn" ' +
                                         'data-id="' + data.id +
                                         '">Edit</a>' +
-                                        '<a href="{{ route('admin.pegawai.destroy', '') }}/' + data
+                                        '<a href="{{ route('superadmin.pegawai.destroy', '') }}/' + data
                                         .id_users +
                                         '" style="font-size: 10pt" class="btn btn-danger m-1 delete-btn" ' +
                                         'data-id="' + data.id +

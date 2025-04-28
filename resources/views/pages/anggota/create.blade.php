@@ -6,13 +6,13 @@
 @section('content')
     <main class="container">
         @if (Auth::user()->id_role == 1)
-            <form action="{{ route('admin.anggota.create') }}" method='POST' enctype="multipart/form-data">
+            <form action="{{ route('superadmin.anggota.create') }}" method='POST' enctype="multipart/form-data">
                 @csrf
-            @elseif (Auth::user()->id_role == 2)
-                <form action="{{ route('anggota.create') }}" method='POST' enctype="multipart/form-data">
-                    @csrf
+            {{-- @elseif (Auth::user()->id_role == 2)
+                <form action="{{ route('admin.anggota.create') }}" method='POST' enctype="multipart/form-data">
+                    @csrf --}}
                 @else
-                    <form action="{{ route('pegawai.anggota.create') }}" method='POST' enctype="multipart/form-data">
+                    <form action="{{ route('admin.anggota.create') }}" method='POST' enctype="multipart/form-data">
                         @csrf
         @endif
         <div class="row my-3 p-3 bg-body rounded shadow-sm">
@@ -41,6 +41,18 @@
             </div>
 
             <div class="col-md-6 mb-3">
+                <label for="username" class="col-md-6 col-form-label">Username</label>
+                <input type="username" class="form-control" id="username" name='username' value="{{ old('username') }}"
+                    placeholder="Masukkan Username" required>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="password" class="col-md-6 col-form-label">Password</label>
+                <input type="password" class="form-control" id="password" name='password' value="{{ old('password') }}"
+                    placeholder="Masukkan Password" required>
+            </div>
+
+            <div class="col-md-6 mb-3">
                 <label for="jeniskelamin" class="col-md-6 col-form-label">Jenis Kelamin</label>
                 <select class="form-select cursor-pointer" aria-label="Default select example" id="jeniskelamin"
                     name="jeniskelamin" value="{{ old('jeniskelamin') }}" required>
@@ -59,7 +71,7 @@
             </div>
 
             <div class="col-md-6 mb-3">
-                <label for="no_telp" class="col-md-6 col-form-label">No Telepon</label>
+                <label for="no_telp" class="col-md-6 col-form-label">No Handphone</label>
                 <input type="text" class="form-control" name='noTelp' id="no_telp" value="{{ old('no_telp') }}"
                     placeholder="Masukkan No Handphone" required>
             </div>
@@ -83,11 +95,11 @@
             <div class="mb-3 mt-4">
                 <div class="col-sm-12 d-flex justify-content-between">
                     @if (Auth::user()->id_role == 1)
-                        <a href="{{ route('admin.anggota') }}" class="btn btn-secondary">Kembali</a>
-                    @elseif (Auth::user()->id_role == 2)
-                        <a href="{{ route('anggota') }}" class="btn btn-secondary">Kembali</a>
+                        <a href="{{ route('superadmin.anggota') }}" class="btn btn-secondary">Kembali</a>
+                    {{-- @elseif (Auth::user()->id_role == 2)
+                        <a href="{{ route('admin.anggota') }}" class="btn btn-secondary">Kembali</a> --}}
                     @else
-                        <a href="{{ route('pegawai.anggota') }}" class="btn btn-secondary">Kembali</a>
+                        <a href="{{ route('admin.anggota') }}" class="btn btn-secondary">Kembali</a>
                     @endif
                     <button type="submit" class="btn btn-primary">SIMPAN</button>
                 </div>

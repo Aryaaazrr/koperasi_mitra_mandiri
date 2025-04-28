@@ -11,7 +11,7 @@
                 <!-- TOMBOL TAMBAH DATA -->
                 <div class="d-flex justify-content-between">
                     <div class="pb-2">
-                        @if (Auth::user()->id_role == 2)
+                        @if (Auth::user()->id_role == 1)
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal">+
                                 Tambah Data</button>
                         @else
@@ -20,7 +20,7 @@
                         @endif
                     </div>
                     <div class="pb-2">
-                        @if (Auth::user()->id_role == 2)
+                        @if (Auth::user()->id_role == 1)
                             <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
                                 data-bs-target="#exportModal">Cetak SHU</button>
                         @else
@@ -40,7 +40,7 @@
                                 <th class="text-center">Klasifikasi</th>
                                 <th class="text-center">Nominal</th>
                                 @if (Auth::user()->id_role == 2)
-                                <th class="text-center">Aksi</th>
+                                    <th class="text-center">Aksi</th>
                                 @endif
                             </tr>
                         </thead>
@@ -53,10 +53,11 @@
             <div class="modal fade" id="basicModal" tabindex="-1">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
-                        @if (Auth::user()->id_role == 2)
-                            <form action="{{ route('laporan.store') }}" method="POST" enctype="multipart/form-data">
+                        @if (Auth::user()->id_role == 1)
+                            <form action="{{ route('superadmin.laporan.store') }}" method="POST"
+                                enctype="multipart/form-data">
                             @else
-                                <form action="{{ route('pegawai.laporan.store') }}" method="POST"
+                                <form action="{{ route('admin.laporan.store') }}" method="POST"
                                     enctype="multipart/form-data">
                         @endif
                         @csrf
@@ -102,10 +103,11 @@
             <div class="modal fade" id="exportModal" tabindex="-1">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
-                        @if (Auth::user()->id_role == 2)
-                            <form action="{{ route('laporan.export') }}" method="GET" enctype="multipart/form-data">
+                        @if (Auth::user()->id_role == 1)
+                            <form action="{{ route('superadmin.laporan.export') }}" method="GET"
+                                enctype="multipart/form-data">
                             @else
-                                <form action="{{ route('pegawai.laporan.export') }}" method="GET"
+                                <form action="{{ route('admin.laporan.export') }}" method="GET"
                                     enctype="multipart/form-data">
                         @endif
                         @csrf
@@ -131,10 +133,11 @@
             <div class="modal fade" id="editModal" tabindex="-1">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
-                        @if (Auth::user()->id_role == 2)
-                            <form action="{{ route('laporan.update') }}" method="POST" enctype="multipart/form-data">
+                        @if (Auth::user()->id_role == 1)
+                            <form action="{{ route('superadmin.laporan.update') }}" method="POST"
+                                enctype="multipart/form-data">
                             @else
-                                <form action="{{ route('pegawai.laporan.update') }}" method="POST"
+                                <form action="{{ route('admin.laporan.update') }}" method="POST"
                                     enctype="multipart/form-data">
                         @endif
                         @csrf
@@ -164,8 +167,8 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             @if (Auth::user()->id_role == 2)
-                            <button type="submit" class="btn btn-success">Simpan</button>
-                        @endif
+                                <button type="submit" class="btn btn-success">Simpan</button>
+                            @endif
                         </div>
                         </form>
                     </div>
@@ -193,7 +196,7 @@
             </script>
         @endif
 
-        @if (Auth::user()->id_role == 2)
+        @if (Auth::user()->id_role == 1)
             <script>
                 $(document).ready(function() {
                     $('#myTable').DataTable({
@@ -201,7 +204,7 @@
                         ordering: true,
                         responsive: true,
                         serverSide: true,
-                        ajax: "{{ route('laporan') }}",
+                        ajax: "{{ route('superadmin.laporan') }}",
                         columns: [{
                                 data: 'DT_RowIndex',
                                 name: 'DT_RowIndex'
@@ -239,7 +242,7 @@
                                         '<button type="button" class="btn btn-warning mt-3 edit-btn" data-bs-toggle="modal" style="font-size: 10pt" data-bs-target="#editModal" data-id="' +
                                         data.id + '" data-keterangan="' + data.keterangan +
                                         '" data-jumlah="' + roundValueJumlahUang + '">Edit</button>' +
-                                        '<a href="{{ route('laporan.destroy', '') }}/' + data
+                                        '<a href="{{ route('superadmin.laporan.destroy', '') }}/' + data
                                         .id +
                                         '" style="font-size: 10pt" class="btn btn-danger m-1 delete-btn" ' +
                                         'data-id="' + data.id +
@@ -249,7 +252,7 @@
                                 }
                             },
                         ],
-                        order : [
+                        order: [
                             [0, 'desc']
                         ],
                         rowCallback: function(row, data, index) {
@@ -293,7 +296,7 @@
                         ordering: true,
                         responsive: true,
                         serverSide: true,
-                        ajax: "{{ route('pegawai.laporan') }}",
+                        ajax: "{{ route('admin.laporan') }}",
                         columns: [{
                                 data: 'DT_RowIndex',
                                 name: 'DT_RowIndex'
@@ -320,23 +323,28 @@
                                     });
                                 }
                             },
-                            // {
-                            //     data: null,
-                            //     render: function(data) {
-                            //         var roundValueJumlahUang = data.jumlah_uang != null ? Math.round(
-                            //             data.jumlah_uang) : 0;
+                            {
+                                data: null,
+                                render: function(data) {
+                                    var roundValueJumlahUang = data.jumlah_uang != null ? Math.round(
+                                        data.jumlah_uang) : 0;
 
-                            //         return '<div class="row justify-content-center">' +
-                            //             '<div class="col-auto">' +
-                            //             '<button type="button" class="btn btn-warning mt-3 edit-btn" data-bs-toggle="modal" style="font-size: 10pt" data-bs-target="#editModal" data-id="' +
-                            //             data.id + '" data-keterangan="' + data.keterangan +
-                            //             '" data-jumlah="' + roundValueJumlahUang + '">Edit</button>' +
-                            //             '</div>' +
-                            //             '</div>';
-                            //     }
-                            // },
+                                    return '<div class="row justify-content-center">' +
+                                        '<div class="col-auto">' +
+                                        '<button type="button" class="btn btn-warning mt-3 edit-btn" data-bs-toggle="modal" style="font-size: 10pt" data-bs-target="#editModal" data-id="' +
+                                        data.id + '" data-keterangan="' + data.keterangan +
+                                        '" data-jumlah="' + roundValueJumlahUang + '">Edit</button>' +
+                                        '<a href="{{ route('admin.laporan.destroy', '') }}/' + data
+                                        .id +
+                                        '" style="font-size: 10pt" class="btn btn-danger m-1 delete-btn" ' +
+                                        'data-id="' + data.id +
+                                        '">Hapus</a>' +
+                                        '</div>' +
+                                        '</div>';
+                                }
+                            },
                         ],
-                        order : [
+                        order: [
                             [0, 'desc']
                         ],
                         rowCallback: function(row, data, index) {

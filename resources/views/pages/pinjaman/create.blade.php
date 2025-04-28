@@ -7,8 +7,8 @@
     <main class="container">
 
         <div class="my-3 p-3 bg-body rounded shadow-sm">
-            @if (Auth::user()->id_role == 2)
-                <a href="{{ route('pinjaman') }}" class="btn btn-secondary">Kembali</a>
+            @if (Auth::user()->id_role == 1)
+                <a href="{{ route('superadmin.pinjaman') }}" class="btn btn-secondary">Kembali</a>
             @else
                 <a href="{{ route('pegawai.pinjaman') }}" class="btn btn-secondary">Kembali</a>
             @endif
@@ -53,7 +53,7 @@
         </script>
     @endif
 
-    @if (Auth::user()->id_role == 2)
+    @if (Auth::user()->id_role == 1)
         <script>
             $(document).ready(function() {
                 $('#myTable').DataTable({
@@ -61,7 +61,7 @@
                     ordering: true,
                     responsive: true,
                     serverSide: true,
-                    ajax: "{{ route('anggota') }}",
+                    ajax: "{{ route('superadmin.anggota') }}",
                     columns: [{
                             data: 'DT_RowIndex',
                             name: 'DT_RowIndex'
@@ -107,7 +107,7 @@
                                     '</div>' +
                                     '<div class="modal-body text-start">' +
                                     '<form id="formPinjaman' + data.id_anggota +
-                                    '" action="{{ route('pinjaman.store') }}" method="POST" enctype="multipart/form-data">' +
+                                    '" action="{{ route('superadmin.pinjaman.store') }}" method="POST" enctype="multipart/form-data">' +
                                     '@csrf' +
                                     '<input type="hidden" class="form-control" id="id_anggota" name="id_anggota" value="' +
                                     data.id_anggota + '" required>' +

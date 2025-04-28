@@ -79,13 +79,13 @@
 <body>
     <div class="header">
         <h1>KOPERASI SIMPAN PINJAM</h1>
-        <h1>"BANGUN KARYA DESA"</h1>
+        <h1>"MITRA MANDIRI"</h1>
         <p>BH Nomor : AHU-000032.AH.01.26.TAHUN 2019, 15-11-2019</p>
         <p>Jl. Sunan Muria no.34 001/003 Kebonsari Wetan, Kec. Kanigaran</p>
     </div>
     <div class="content">
         <h3>DATA PEGAWAI {{ $tahun }}</h3>
-        <h3>KSP BANGUN KARYA DESA</h3>
+        <h3>KSP MITRA MANDIRI</h3>
         <table class="table" style="margin-bottom: 20px; font-size: x-small;">
             <thead>
                 <tr>

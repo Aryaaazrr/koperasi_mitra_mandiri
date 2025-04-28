@@ -29,7 +29,7 @@
                                     No Anggota : {{ $pinjaman->anggota->no_anggota }}
                                 </p>
                                 <p class="mt-4">
-                                    Nama : {{ $pinjaman->anggota->nama }}
+                                    Nama : {{ $pinjaman->anggota->users->nama }}
                                 </p>
                                 <p class="mt-4">
                                     Besar Pinjaman : Rp {{ number_format($pinjaman->total_pinjaman, 2, ',', '.') }}
@@ -69,21 +69,21 @@
             </div>
             <div class="d-flex justify-content-between">
                 <div class="pb-2 mt-4">
-                    @if (Auth::user()->id_role == 2)
-                        <a href='{{ route('pinjaman') }}' class="btn btn-secondary">Kembali</a>
+                    @if (Auth::user()->id_role == 1)
+                        <a href='{{ route('superadmin.pinjaman') }}' class="btn btn-secondary">Kembali</a>
                     @else
-                        <a href='{{ route('pegawai.pinjaman') }}' class="btn btn-secondary">Kembali</a>
+                        <a href='{{ route('admin.pinjaman') }}' class="btn btn-secondary">Kembali</a>
                     @endif
                 </div>
                 <div class="pb-2 mt-4">
                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#basicModal">Bayar
                         Pinjaman</button>
-                    @if (Auth::user()->id_role == 2)
-                        <a href="{{ route('pinjaman.export', ['id' => $angsuran->id_pinjaman]) }}"
+                    @if (Auth::user()->id_role == 1)
+                        <a href="{{ route('superadmin.pinjaman.export', ['id' => $angsuran->id_pinjaman]) }}"
                             class="btn btn-info">Cetak
                             Laporan</a>
                     @else
-                        <a href="{{ route('pegawai.pinjaman.export', ['id' => $angsuran->id_pinjaman]) }}"
+                        <a href="{{ route('admin.pinjaman.export', ['id' => $angsuran->id_pinjaman]) }}"
                             class="btn btn-info">Cetak
                             Laporan</a>
                     @endif
@@ -94,11 +94,11 @@
         <div class="modal fade" id="basicModal" tabindex="-1">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                    @if (Auth::user()->id_role == 2)
-                        <form action="{{ route('pinjaman.update', $pinjaman->id_pinjaman) }}" method="POST"
+                    @if (Auth::user()->id_role == 1)
+                        <form action="{{ route('superadmin.pinjaman.update', $pinjaman->id_pinjaman) }}" method="POST"
                             enctype="multipart/form-data">
                         @else
-                            <form action="{{ route('pegawai.pinjaman.update', $pinjaman->id_pinjaman) }}" method="POST"
+                            <form action="{{ route('admin.pinjaman.update', $pinjaman->id_pinjaman) }}" method="POST"
                                 enctype="multipart/form-data">
                     @endif
                     @csrf
@@ -148,7 +148,7 @@
         </script>
     @endif
 
-    @if (Auth::user()->id_role == 2)
+    @if (Auth::user()->id_role == 1)
         <script>
             $(document).ready(function() {
                 $('#myTable').DataTable({
@@ -157,7 +157,7 @@
                     responsive: true,
                     serverSide: true,
                     ajax: {
-                        url: '{{ route('pinjaman.show', ['id' => ':id']) }}'.replace(':id', window.location
+                        url: '{{ route('superadmin.pinjaman.show', ['id' => ':id']) }}'.replace(':id', window.location
                             .href.split('/').pop()),
                         method: 'GET',
                         dataSrc: 'data'
@@ -232,7 +232,7 @@
                     responsive: true,
                     serverSide: true,
                     ajax: {
-                        url: '{{ route('pegawai.pinjaman.show', ['id' => ':id']) }}'.replace(':id', window
+                        url: '{{ route('admin.pinjaman.show', ['id' => ':id']) }}'.replace(':id', window
                             .location
                             .href.split('/').pop()),
                         method: 'GET',

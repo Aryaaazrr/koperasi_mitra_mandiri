@@ -94,7 +94,7 @@
                             </div>
                         </div>
 
-                        @if (Auth::user()->id_role != 1)
+                        @if (Auth::user()->id_role != 3)
                             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4 mt-4">
                                 <div class="card">
                                     <div class="card-body p-3">
@@ -173,91 +173,145 @@
                         @endif
                     </div>
                     <div class="row">
-                        @if (Auth::user()->id_role == 1)
-                            <div class="col-md-6 mb-lg-0 my-4">
-                                <div class="card border border-0 z-index-2 p-4 h-100">
-                                    <form method="GET" action="{{ route('admin.line.chart') }}"
-                                        class="d-flex justify-content-end mb-2">
+                        @if (Auth::user()->id_role != 3)
+                            @if (Auth::user()->id_role == 2)
+
+                                <div class="col-md-6 mb-lg-0 my-4">
+                                    <div class="card border border-0 z-index-2 p-4 h-100">
+                                        @if (Auth::user()->id_role == 2)
+                                            <form method="GET" action="{{ route('admin.line.chart') }}"
+                                                class="d-flex justify-content-end mb-2">
+                                            @else
+                                                <form method="GET" action="{{ route('pegawai.line.chart') }}"
+                                                    class="d-flex justify-content-end mb-2">
+                                        @endif
                                         <select name="tahun" id="tahun" class="form-select cursor-pointer">
                                             <option value="" selected disabled>Filter Tahun</option>
-                                            @foreach ($anggotaTahun as $year)
+                                            @foreach ($shuTahun as $year)
                                                 <option value="{{ $year }}"
                                                     {{ request('tahun') == $year ? 'selected' : '' }}>{{ $year }}
                                                 </option>
                                             @endforeach
                                         </select>
                                         <button type="submit" class="btn btn-secondary h-100">Filter</button>
-                                    </form>
-                                    {!! $anggotaChart->container() !!}
+                                        </form>
+
+                                        {!! $shuChart->container() !!}
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6 mb-lg-0 my-4">
-                                <div class="card border border-0 z-index-2 p-4 h-100">
-                                    <form method="GET" action="{{ route('admin.pie.chart') }}"
-                                        class="d-flex justify-content-end mb-2">
+                                <div class="col-md-6 mb-lg-0 my-4">
+                                    <div class="card border border-0 z-index-2 p-4 h-100">
+                                        @if (Auth::user()->id_role == 2)
+                                            <form method="GET" action="{{ route('admin.pie.chart') }}"
+                                                class="d-flex justify-content-end mb-2">
+                                            @else
+                                                <form method="GET" action="{{ route('pegawai.pie.chart') }}"
+                                                    class="d-flex justify-content-end mb-2">
+                                        @endif
                                         <select name="tahun" id="tahun" class="form-select cursor-pointer">
                                             <option value="" selected disabled>Filter Tahun</option>
-                                            @foreach ($anggotaTahun as $year)
+                                            @foreach ($transaksiTahun as $year)
                                                 <option value="{{ $year }}"
                                                     {{ request('tahun') == $year ? 'selected' : '' }}>{{ $year }}
                                                 </option>
                                             @endforeach
                                         </select>
                                         <button type="submit" class="btn btn-secondary h-100">Filter</button>
-                                    </form>
-                                    {!! $jenisAnggotaChart->container() !!}
+                                        </form>
+
+                                        {!! $transaksiChart->container() !!}
+                                    </div>
                                 </div>
-                            </div>
-                        @else
-                            <div class="col-md-6 mb-lg-0 my-4">
-                                <div class="card border border-0 z-index-2 p-4 h-100">
-                                    @if (Auth::user()->id_role == 2)
-                                        <form method="GET" action="{{ route('pengurus.line.chart') }}"
+                            @else
+                                <div class="col-md-6 mb-lg-0 my-4">
+                                    <div class="card border border-0 z-index-2 p-4 h-100">
+                                        <form method="GET" action="{{ route('superadmin.line.chart') }}"
                                             class="d-flex justify-content-end mb-2">
+                                            <select name="tahun" id="tahun" class="form-select cursor-pointer">
+                                                <option value="" selected disabled>Filter Tahun</option>
+                                                @foreach ($anggotaTahun as $year)
+                                                    <option value="{{ $year }}"
+                                                        {{ request('tahun') == $year ? 'selected' : '' }}>
+                                                        {{ $year }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <button type="submit" class="btn btn-secondary h-100">Filter</button>
+                                        </form>
+                                        {!! $anggotaChart->container() !!}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-lg-0 my-4">
+                                    <div class="card border border-0 z-index-2 p-4 h-100">
+                                        <form method="GET" action="{{ route('superadmin.pie.chart') }}"
+                                            class="d-flex justify-content-end mb-2">
+                                            <select name="tahun" id="tahun" class="form-select cursor-pointer">
+                                                <option value="" selected disabled>Filter Tahun</option>
+                                                @foreach ($anggotaTahun as $year)
+                                                    <option value="{{ $year }}"
+                                                        {{ request('tahun') == $year ? 'selected' : '' }}>
+                                                        {{ $year }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <button type="submit" class="btn btn-secondary h-100">Filter</button>
+                                        </form>
+                                        {!! $jenisAnggotaChart->container() !!}
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-lg-0 my-4">
+                                    <div class="card border border-0 z-index-2 p-4 h-100">
+                                        <form method="GET" action="{{ route('superadmin.line.chart') }}"
+                                            class="d-flex justify-content-end mb-2">
+                                            {{-- @if (Auth::user()->id_role == 1)
                                         @else
                                             <form method="GET" action="{{ route('pegawai.line.chart') }}"
                                                 class="d-flex justify-content-end mb-2">
-                                    @endif
-                                    <select name="tahun" id="tahun" class="form-select cursor-pointer">
-                                        <option value="" selected disabled>Filter Tahun</option>
-                                        @foreach ($shuTahun as $year)
-                                            <option value="{{ $year }}"
-                                                {{ request('tahun') == $year ? 'selected' : '' }}>{{ $year }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <button type="submit" class="btn btn-secondary h-100">Filter</button>
-                                    </form>
+                                    @endif --}}
+                                            <select name="tahun" id="tahun" class="form-select cursor-pointer">
+                                                <option value="" selected disabled>Filter Tahun</option>
+                                                @foreach ($shuTahun as $year)
+                                                    <option value="{{ $year }}"
+                                                        {{ request('tahun') == $year ? 'selected' : '' }}>
+                                                        {{ $year }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <button type="submit" class="btn btn-secondary h-100">Filter</button>
+                                        </form>
 
-                                    {!! $shuChart->container() !!}
+                                        {!! $shuChart->container() !!}
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6 mb-lg-0 my-4">
-                                <div class="card border border-0 z-index-2 p-4 h-100">
-                                    @if (Auth::user()->id_role == 2)
-                                        <form method="GET" action="{{ route('pengurus.pie.chart') }}"
+                                <div class="col-md-6 mb-lg-0 my-4">
+                                    <div class="card border border-0 z-index-2 p-4 h-100">
+                                        <form method="GET" action="{{ route('superadmin.pie.chart') }}"
                                             class="d-flex justify-content-end mb-2">
+                                            {{-- @if (Auth::user()->id_role == 2)
                                         @else
                                             <form method="GET" action="{{ route('pegawai.pie.chart') }}"
                                                 class="d-flex justify-content-end mb-2">
-                                    @endif
-                                    <select name="tahun" id="tahun" class="form-select cursor-pointer">
-                                        <option value="" selected disabled>Filter Tahun</option>
-                                        @foreach ($transaksiTahun as $year)
-                                            <option value="{{ $year }}"
-                                                {{ request('tahun') == $year ? 'selected' : '' }}>{{ $year }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <button type="submit" class="btn btn-secondary h-100">Filter</button>
-                                    </form>
+                                    @endif --}}
+                                            <select name="tahun" id="tahun" class="form-select cursor-pointer">
+                                                <option value="" selected disabled>Filter Tahun</option>
+                                                @foreach ($transaksiTahun as $year)
+                                                    <option value="{{ $year }}"
+                                                        {{ request('tahun') == $year ? 'selected' : '' }}>
+                                                        {{ $year }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <button type="submit" class="btn btn-secondary h-100">Filter</button>
+                                        </form>
 
-                                    {!! $transaksiChart->container() !!}
+                                        {!! $transaksiChart->container() !!}
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
+                        @else
                         @endif
                     </div>
-                    @if (Auth::user()->id_role != 1)
+                    @if (Auth::user()->id_role != 3)
                         <div class="row">
                             <div class="col-md-12 col-lg-12 col-xl-12 order-0 mb-4 my-4">
                                 <div class="card border border-0 p-4">
@@ -294,176 +348,178 @@
     @if (Auth::user()->id_role == 1)
         <script src="{{ $anggotaChart->cdn() }}"></script>
         <script src="{{ $jenisAnggotaChart->cdn() }}"></script>
+        <script src="{{ $shuChart->cdn() }}"></script>
+        <script src="{{ $transaksiChart->cdn() }}"></script>
 
         {{ $anggotaChart->script() }}
         {{ $jenisAnggotaChart->script() }}
-    @else
-        @if (Auth::user()->id_role == 2)
-            <script>
-                $(document).ready(function() {
-                    $('#myTable').DataTable({
-                        processing: true,
-                        ordering: true,
-                        responsive: true,
-                        serverSide: true,
-                        ajax: "{{ route('dashboard') }}",
-                        columns: [{
-                                data: 'angsuran_ke_',
-                                name: 'angsuran_ke_'
-                            },
-                            {
-                                data: 'nama_anggota',
-                                name: 'nama_anggota'
-                            },
-                            {
-                                data: 'tanggal_jatuh_tempo',
-                                name: 'tanggal_jatuh_tempo'
-                            },
-                            {
-                                data: 'angsuran_pokok',
-                                name: 'angsuran_pokok',
-                                render: function(data) {
-                                    return data !== null ? parseInt(data).toLocaleString('id-ID', {
-                                        style: 'currency',
-                                        currency: 'IDR'
-                                    }) : '-';
-                                }
-                            },
-                            {
-                                data: 'bunga',
-                                name: 'bunga',
-                                render: function(data) {
-                                    return data !== null ? parseInt(data).toLocaleString('id-ID', {
-                                        style: 'currency',
-                                        currency: 'IDR'
-                                    }) : '-';
-                                }
-                            },
-                            {
-                                data: 'status_pelunasan',
-                                name: 'status_pelunasan'
-                            },
-                            {
-                                data: null,
-                                render: function(data) {
-                                    return '<div class="row justify-content-center">' +
-                                        '<div class="col-auto">' +
-                                        '<a href="{{ route('pinjaman.show', '') }}/' + data.id_pinjaman +
-                                        '" style="font-size: 10pt" class="btn btn-secondary m-1 edit-btn" ' +
-                                        'data-id="' + data.id +
-                                        '">Lihat</a>' +
-                                        '</div>' +
-                                        '</div>';
-                                }
-                            },
-                        ],
-                        rowCallback: function(row, data, index) {
-                            var dt = this.api();
-                            $(row).attr('data-id', data.id);
-                            $('td:eq(0)', row).html(dt.page.info().start + index + 1);
+        {{ $shuChart->script() }}
+        {{ $transaksiChart->script() }}
+        <script>
+            $(document).ready(function() {
+                $('#myTable').DataTable({
+                    processing: true,
+                    ordering: true,
+                    responsive: true,
+                    serverSide: true,
+                    ajax: "{{ route('superadmin.dashboard') }}",
+                    columns: [{
+                            data: 'angsuran_ke_',
+                            name: 'angsuran_ke_'
+                        },
+                        {
+                            data: 'nama_anggota',
+                            name: 'nama_anggota'
+                        },
+                        {
+                            data: 'tanggal_jatuh_tempo',
+                            name: 'tanggal_jatuh_tempo'
+                        },
+                        {
+                            data: 'angsuran_pokok',
+                            name: 'angsuran_pokok',
+                            render: function(data) {
+                                return data !== null ? parseInt(data).toLocaleString('id-ID', {
+                                    style: 'currency',
+                                    currency: 'IDR'
+                                }) : '-';
+                            }
+                        },
+                        {
+                            data: 'bunga',
+                            name: 'bunga',
+                            render: function(data) {
+                                return data !== null ? parseInt(data).toLocaleString('id-ID', {
+                                    style: 'currency',
+                                    currency: 'IDR'
+                                }) : '-';
+                            }
+                        },
+                        {
+                            data: 'status_pelunasan',
+                            name: 'status_pelunasan'
+                        },
+                        {
+                            data: null,
+                            render: function(data) {
+                                return '<div class="row justify-content-center">' +
+                                    '<div class="col-auto">' +
+                                    '<a href="{{ route('admin.pinjaman.show', '') }}/' + data
+                                    .id_pinjaman +
+                                    '" style="font-size: 10pt" class="btn btn-secondary m-1 edit-btn" ' +
+                                    'data-id="' + data.id +
+                                    '">Lihat</a>' +
+                                    '</div>' +
+                                    '</div>';
+                            }
+                        },
+                    ],
+                    rowCallback: function(row, data, index) {
+                        var dt = this.api();
+                        $(row).attr('data-id', data.id);
+                        $('td:eq(0)', row).html(dt.page.info().start + index + 1);
+                    }
+                });
+
+                $('.datatable-input').on('input', function() {
+                    var searchText = $(this).val().toLowerCase();
+
+                    $('.table tr').each(function() {
+                        var rowData = $(this).text().toLowerCase();
+                        if (rowData.indexOf(searchText) === -1) {
+                            $(this).hide();
+                        } else {
+                            $(this).show();
                         }
                     });
-
-                    $('.datatable-input').on('input', function() {
-                        var searchText = $(this).val().toLowerCase();
-
-                        $('.table tr').each(function() {
-                            var rowData = $(this).text().toLowerCase();
-                            if (rowData.indexOf(searchText) === -1) {
-                                $(this).hide();
-                            } else {
-                                $(this).show();
-                            }
-                        });
-                    });
                 });
-            </script>
-        @elseif (Auth::user()->id_role == 3)
-            <script>
-                $(document).ready(function() {
-                    $('#myTable').DataTable({
-                        processing: true,
-                        ordering: true,
-                        responsive: true,
-                        serverSide: true,
-                        ajax: "{{ route('pegawai.dashboard') }}",
-                        columns: [{
-                                data: 'angsuran_ke_',
-                                name: 'angsuran_ke_'
-                            },
-                            {
-                                data: 'nama_anggota',
-                                name: 'nama_anggota'
-                            },
-                            {
-                                data: 'tanggal_jatuh_tempo',
-                                name: 'tanggal_jatuh_tempo'
-                            },
-                            {
-                                data: 'angsuran_pokok',
-                                name: 'angsuran_pokok',
-                                render: function(data) {
-                                    return data !== null ? parseInt(data).toLocaleString('id-ID', {
-                                        style: 'currency',
-                                        currency: 'IDR'
-                                    }) : '-';
-                                }
-                            },
-                            {
-                                data: 'bunga',
-                                name: 'bunga',
-                                render: function(data) {
-                                    return data !== null ? parseInt(data).toLocaleString('id-ID', {
-                                        style: 'currency',
-                                        currency: 'IDR'
-                                    }) : '-';
-                                }
-                            },
-                            {
-                                data: 'status_pelunasan',
-                                name: 'status_pelunasan'
-                            },
-                            {
-                                data: null,
-                                render: function(data) {
-                                    return '<div class="row justify-content-center">' +
-                                        '<div class="col-auto">' +
-                                        '<a href="{{ route('pegawai.pinjaman.show', '') }}/' + data
-                                        .id_pinjaman +
-                                        '" style="font-size: 10pt" class="btn btn-secondary m-1 edit-btn" ' +
-                                        'data-id="' + data.id +
-                                        '">Lihat</a>' +
-                                        '</div>' +
-                                        '</div>';
-                                }
-                            },
-                        ],
-                        rowCallback: function(row, data, index) {
-                            var dt = this.api();
-                            $(row).attr('data-id', data.id);
-                            $('td:eq(0)', row).html(dt.page.info().start + index + 1);
-                        }
-                    });
-
-                    $('.datatable-input').on('input', function() {
-                        var searchText = $(this).val().toLowerCase();
-
-                        $('.table tr').each(function() {
-                            var rowData = $(this).text().toLowerCase();
-                            if (rowData.indexOf(searchText) === -1) {
-                                $(this).hide();
-                            } else {
-                                $(this).show();
-                            }
-                        });
-                    });
-                });
-            </script>
-        @endif
+            });
+        </script>
+    @elseif (Auth::user()->id_role == 2)
         <script src="{{ $shuChart->cdn() }}"></script>
         <script src="{{ $transaksiChart->cdn() }}"></script>
 
         {{ $shuChart->script() }}
         {{ $transaksiChart->script() }}
+        <script>
+            $(document).ready(function() {
+                $('#myTable').DataTable({
+                    processing: true,
+                    ordering: true,
+                    responsive: true,
+                    serverSide: true,
+                    ajax: "{{ route('admin.dashboard') }}",
+                    columns: [{
+                            data: 'angsuran_ke_',
+                            name: 'angsuran_ke_'
+                        },
+                        {
+                            data: 'nama_anggota',
+                            name: 'nama_anggota'
+                        },
+                        {
+                            data: 'tanggal_jatuh_tempo',
+                            name: 'tanggal_jatuh_tempo'
+                        },
+                        {
+                            data: 'angsuran_pokok',
+                            name: 'angsuran_pokok',
+                            render: function(data) {
+                                return data !== null ? parseInt(data).toLocaleString('id-ID', {
+                                    style: 'currency',
+                                    currency: 'IDR'
+                                }) : '-';
+                            }
+                        },
+                        {
+                            data: 'bunga',
+                            name: 'bunga',
+                            render: function(data) {
+                                return data !== null ? parseInt(data).toLocaleString('id-ID', {
+                                    style: 'currency',
+                                    currency: 'IDR'
+                                }) : '-';
+                            }
+                        },
+                        {
+                            data: 'status_pelunasan',
+                            name: 'status_pelunasan'
+                        },
+                        {
+                            data: null,
+                            render: function(data) {
+                                return '<div class="row justify-content-center">' +
+                                    '<div class="col-auto">' +
+                                    '<a href="{{ route('admin.pinjaman.show', '') }}/' + data
+                                    .id_pinjaman +
+                                    '" style="font-size: 10pt" class="btn btn-secondary m-1 edit-btn" ' +
+                                    'data-id="' + data.id +
+                                    '">Lihat</a>' +
+                                    '</div>' +
+                                    '</div>';
+                            }
+                        },
+                    ],
+                    rowCallback: function(row, data, index) {
+                        var dt = this.api();
+                        $(row).attr('data-id', data.id);
+                        $('td:eq(0)', row).html(dt.page.info().start + index + 1);
+                    }
+                });
+
+                $('.datatable-input').on('input', function() {
+                    var searchText = $(this).val().toLowerCase();
+
+                    $('.table tr').each(function() {
+                        var rowData = $(this).text().toLowerCase();
+                        if (rowData.indexOf(searchText) === -1) {
+                            $(this).hide();
+                        } else {
+                            $(this).show();
+                        }
+                    });
+                });
+            });
+        </script>
     @endif
 @endsection

@@ -6,7 +6,7 @@
 @section('content')
     <main class="container">
         @if (Auth::user()->id_role == 1)
-            <form action="{{ route('admin.pegawai.store') }}" method='POST' enctype="multipart/form-data">
+            <form action="{{ route('superadmin.pegawai.store') }}" method='POST' enctype="multipart/form-data">
                 @csrf
             @elseif (Auth::user()->id_role == 2)
                 <form action="{{ route('pegawai.store') }}" method='POST' enctype="multipart/form-data">
@@ -47,12 +47,18 @@
             </div>
 
             <div class="col-md-6 mb-3">
+                <label for="password" class="col-md-6 col-form-label">Password</label>
+                <input type="password" class="form-control" id="password" name='password' value="{{ old('password') }}"
+                    placeholder="Masukkan Password" required>
+            </div>
+
+            <div class="col-md-6 mb-3">
                 <label for="jeniskelamin" class="col-md-6 col-form-label">Jenis Kelamin</label>
                 <select class="form-select cursor-pointer" aria-label="Default select example" id="jeniskelamin"
-                    name="jeniskelamin" value="{{ old('jeniskelamin') }}" required>
-                    <option value="" selected disabled>Pilih Jenis Kelamin</option>
-                    <option value="Laki-Laki">Laki-laki</option>
-                    <option value="Perempuan">Perempuan</option>
+                    name="jeniskelamin" required>
+                    <option value="" disabled {{ old('jeniskelamin') ? '' : 'selected' }}>Pilih Jenis Kelamin</option>
+                    <option value="Laki-Laki" {{ old('jeniskelamin') == 'Laki-Laki' ? 'selected' : '' }}>Laki-laki</option>
+                    <option value="Perempuan" {{ old('jeniskelamin') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
                 </select>
             </div>
 
@@ -69,25 +75,17 @@
             </div>
 
             <div class="col-md-6 mb-3">
-                <label for="password" class="col-md-6 col-form-label">Password</label>
-                <input type="password" class="form-control" id="password" name='password' value="{{ old('password') }}"
-                    placeholder="Masukkan Password" required>
-            </div>
-
-            <div class="col-md-6 mb-3">
                 <label for="role" class="col-md-6 col-form-label">Role Pengguna</label>
-                <select class="form-select cursor-pointer" aria-label="Default select example" id="role" name="role"
-                    value="{{ old('role') }}" required>
-                    <option value="" selected disabled>Pilih Role Pengguna</option>
-                    <option value="2">Pengurus Koperasi</option>
-                    <option value="3">Pegawai Koperasi</option>
+                <select class="form-select cursor-pointer" aria-label="Default select example" id="role" name="role" required>
+                    <option value="" disabled {{ old('role') ? '' : 'selected' }}>Pilih Role Pengguna</option>
+                    <option value="2" {{ old('role') == '2' ? 'selected' : ''  }}>Admin</option>
                 </select>
             </div>
 
             <div class="mb-3 mt-4">
                 <div class="col-sm-12 d-flex justify-content-between">
                     @if (Auth::user()->id_role == 1)
-                        <a href="{{ route('admin.pegawai') }}" class="btn btn-secondary">Kembali</a>
+                        <a href="{{ route('superadmin.pegawai') }}" class="btn btn-secondary">Kembali</a>
                     @elseif (Auth::user()->id_role == 2)
                         <a href="{{ route('pegawai') }}" class="btn btn-secondary">Kembali</a>
                     @else

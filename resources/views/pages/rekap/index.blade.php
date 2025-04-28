@@ -12,30 +12,29 @@
                         <div class="row d-flex justify-content-between">
                             <div class="col-md-6">
                                 {{-- <form action="{{ route('rekap.filter') }}" method="GET" class="form-control"> --}}
-                                    @if (Auth::user()->id_role == 2)
-                                    <form action="{{ route('rekap.filter') }}" method="GET" class="form-control">
+                                @if (Auth::user()->id_role == 1)
+                                    <form action="{{ route('superadmin.rekap.filter') }}" method="GET" class="form-control">
                                     @else
-                                        <form action="{{ route('pegawai.rekap.filter') }}" method="GET"
+                                        <form action="{{ route('admin.rekap.filter') }}" method="GET"
                                             class="form-control">
-                                     @endif
-                                    <span class="d-flex -mb-4">
-                                        <h5>Pilih Rentang Waktu :</h5>
-                                    </span>
-                                    @csrf
-                                    <div class="col d-flex justify-content-start align-items-center">
-                                        <input type="date" name="start_date" class="form-control h-50 me-2 mb-2"
-                                            required>
-                                        <input type="date" name="end_date" class="form-control h-50 me-2 mb-2" required>
-                                        <button type="submit" class="btn btn-primary">Filter</button>
-                                    </div>
-                                    <h6><b>Pendapatan : Rp {{ number_format($pendapatan, 2, ',', '.') }}</b>
-                                    </h6>
-                                    <h6 class="mt-4">
-                                        <b>Pemasukan : Rp {{ number_format($totalPemasukan, 2, ',', '.') }}</b>
-                                    </h6>
-                                    <h6 class="mt-4">
-                                        <b>Pengeluaran : Rp {{ number_format($totalPengeluaran, 2, ',', '.') }}</b>
-                                    </h6>
+                                @endif
+                                <span class="d-flex -mb-4">
+                                    <h5>Pilih Rentang Waktu :</h5>
+                                </span>
+                                @csrf
+                                <div class="col d-flex justify-content-start align-items-center">
+                                    <input type="date" name="start_date" class="form-control h-50 me-2 mb-2" required>
+                                    <input type="date" name="end_date" class="form-control h-50 me-2 mb-2" required>
+                                    <button type="submit" class="btn btn-primary">Filter</button>
+                                </div>
+                                <h6><b>Pendapatan : Rp {{ number_format($pendapatan, 2, ',', '.') }}</b>
+                                </h6>
+                                <h6 class="mt-4">
+                                    <b>Pemasukan : Rp {{ number_format($totalPemasukan, 2, ',', '.') }}</b>
+                                </h6>
+                                <h6 class="mt-4">
+                                    <b>Pengeluaran : Rp {{ number_format($totalPengeluaran, 2, ',', '.') }}</b>
+                                </h6>
                                 </form>
                             </div>
                             <div class="col-md-6">
@@ -82,8 +81,8 @@
                     <thead style="font-size: 10pt">
                         <tr style="background-color: rgb(187, 246, 201)">
                             <th class="text-center">No</th>
-                            <th class="text-center">Nama Pengguna</th>
-                            <th class="text-center">Anggota</th>
+                            <th class="text-center">Nama Pegawai</th>
+                            <th class="text-center">Nama Anggota</th>
                             <th class="text-center">Jenis Transaksi</th>
                             <th class="text-center">Tanggal</th>
                             <th class="text-center">Jumlah Masuk</th>
@@ -108,10 +107,10 @@
         <div class="modal fade" id="basicModal" tabindex="-1">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
-                    @if (Auth::user()->id_role == 2)
-                        <form action="{{ route('rekap.export') }}" method="GET">
+                    @if (Auth::user()->id_role == 1)
+                        <form action="{{ route('superadmin.rekap.export') }}" method="GET">
                         @else
-                            <form action="{{ route('pegawai.rekap.export') }}" method="GET">
+                            <form action="{{ route('admin.rekap.export') }}" method="GET">
                     @endif
                     @csrf
                     <div class="modal-header">
@@ -141,7 +140,7 @@
         </div>
     </main>
 
-    @if (Auth::user()->id_role == 2)
+    @if (Auth::user()->id_role == 1)
         <script>
             $(document).ready(function() {
                 $('#myTable').DataTable({
@@ -149,7 +148,7 @@
                     ordering: true,
                     responsive: true,
                     serverSide: true,
-                    ajax: "{{ route('rekap') }}",
+                    ajax: "{{ route('superadmin.rekap') }}",
                     columns: [{
                             data: 'DT_RowIndex',
                             name: 'DT_RowIndex'
@@ -220,7 +219,7 @@
                     ordering: true,
                     responsive: true,
                     serverSide: true,
-                    ajax: "{{ route('pegawai.rekap') }}",
+                    ajax: "{{ route('admin.rekap') }}",
                     columns: [{
                             data: 'DT_RowIndex',
                             name: 'DT_RowIndex'

@@ -6,16 +6,16 @@
 @section('content')
     <main class="container">
         @if (Auth::user()->id_role == 1)
-            <form action="{{ route('admin.anggota.update', $users->id_anggota) }}" method='POST'
+            <form action="{{ route('superadmin.anggota.update', $users->id_anggota) }}" method='POST'
                 enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
-            @elseif (Auth::user()->id_role == 2)
+            {{-- @elseif (Auth::user()->id_role == 2)
                 <form action="{{ route('anggota.update', $users->id_anggota) }}" method='POST' enctype="multipart/form-data">
                     @csrf
-                    @method('PUT')
+                    @method('PUT') --}}
                 @else
-                    <form action="{{ route('pegawai.anggota.update', $users->id_anggota) }}" method='POST'
+                    <form action="{{ route('admin.anggota.update', $users->id_anggota) }}" method='POST'
                         enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
@@ -35,27 +35,41 @@
             @endif
             <div class="col-md-6 mb-3">
                 <label for="nik" class="col-sm-2 col-form-label">NIK</label>
-                <input type="text" class="form-control" id="nik" name='nik' value="{{ $users->nik }}"
+                <input type="text" class="form-control" id="nik" name='nik' value="{{ $users->users->nik }}"
                     placeholder="Masukkan NIK" required>
             </div>
 
             <div class="col-md-6 mb-3">
                 <label for="nama" class="col-md-6 col-form-label">Nama Lengkap</label>
-                <input type="text" class="form-control" id="nama" name='nama' value="{{ $users->nama }}"
+                <input type="text" class="form-control" id="nama" name='nama' value="{{ $users->users->nama }}"
                     placeholder="Masukkan Nama Lengkap" required>
             </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="username" class="col-md-6 col-form-label">Username</label>
+                <input type="username" class="form-control" id="username" name='username' value="{{ $users->users->username }}"
+                    placeholder="Masukkan Username" required>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="new_password" class="col-md-6 col-form-label">Ganti Password <span
+                        class="text-danger text-sm">(Optional)</span></label>
+                <input type="password" class="form-control" id="new_password" name='new_password'
+                    placeholder="Masukkan Password Baru" readonly>
+            </div>
+
 
             <div class="col-md-6 mb-3">
                 <label for="jeniskelamin" class="col-md-6 col-form-label">Jenis Kelamin</label>
                 <select class="form-select cursor-pointer" aria-label="Default select example" id="jeniskelamin"
                     name="jeniskelamin" required>
-                    @if ($users->jenis_kelamin == 'Laki-Laki')
+                    @if ($users->users->jenis_kelamin == 'Laki-Laki')
                         <option value="" disabled>Pilih Jenis Kelamin</option>
-                        <option value="{{ $users->jenis_kelamin }}" selected>{{ $users->jenis_kelamin }}</option>
+                        <option value="{{ $users->users->jenis_kelamin }}" selected>{{ $users->users->jenis_kelamin }}</option>
                         <option value="Perempuan">Perempuan</option>
-                    @elseif ($users->jenis_kelamin == 'Perempuan')
+                    @elseif ($users->users->jenis_kelamin == 'Perempuan')
                         <option value="" disabled>Pilih Jenis Kelamin</option>
-                        <option value="{{ $users->jenis_kelamin }}" selected>{{ $users->jenis_kelamin }}</option>
+                        <option value="{{ $users->users->jenis_kelamin }}" selected>{{ $users->users->jenis_kelamin }}</option>
                         <option value="Laki-Laki">Laki-Laki</option>
                     @else
                         <option value="" selected disabled>Pilih Jenis Kelamin</option>
@@ -67,14 +81,14 @@
 
             <div class="col-md-6 mb-3">
                 <label for="alamat" class="col-md-6 col-form-label">Alamat</label>
-                <input type="text" class="form-control" name='alamat' value="{{ $users->alamat }}"
-                    placeholder="Masukkan Alamat" required>
+                <input type="text" class="form-control" name='alamat' value="{{ $users->users->alamat }}"
+                    placeholder="Masukkan Alamat" required readonly>
             </div>
 
             <div class="col-md-6 mb-3">
                 <label for="noTelp" class="col-md-6 col-form-label">No Handphone</label>
-                <input type="text" class="form-control" id="noTelp" name='noTelp' value="{{ $users->no_telp }}"
-                    placeholder="Masukkan No Handphone" required>
+                <input type="text" class="form-control" id="noTelp" name='noTelp' value="{{ $users->users->no_telp }}"
+                    placeholder="Masukkan No Handphone" required readonly>
             </div>
 
             <div class="col-md-6 mb-3">
@@ -95,11 +109,11 @@
             <div class="mb-3 row mt-5">
                 <div class="col-sm-12 d-flex justify-content-between">
                     @if (Auth::user()->id_role == 1)
-                        <a href="{{ route('admin.anggota') }}" class="btn btn-secondary">Kembali</a>
-                    @elseif (Auth::user()->id_role == 2)
-                        <a href="{{ route('anggota') }}" class="btn btn-secondary">Kembali</a>
+                        <a href="{{ route('superadmin.anggota') }}" class="btn btn-secondary">Kembali</a>
+                    {{-- @elseif (Auth::user()->id_role == 2)
+                        <a href="{{ route('anggota') }}" class="btn btn-secondary">Kembali</a> --}}
                     @else
-                        <a href="{{ route('pegawai.anggota') }}" class="btn btn-secondary">Kembali</a>
+                        <a href="{{ route('admin.anggota') }}" class="btn btn-secondary">Kembali</a>
                     @endif
 
                     @if (Auth::user()->id_role != 3)

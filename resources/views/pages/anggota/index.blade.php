@@ -12,20 +12,20 @@
                 <div class="d-flex justify-content-between">
                     <div class="pb-2">
                         @if (Auth::user()->id_role == 1)
-                            <a href='{{ route('admin.anggota.create') }}' class="btn btn-primary">+ Tambah Data</a>
-                        @elseif (Auth::user()->id_role == 2)
-                            <a href='{{ route('anggota.create') }}' class="btn btn-primary">+ Tambah Data</a>
+                            <a href='{{ route('superadmin.anggota.create') }}' class="btn btn-primary">+ Tambah Data</a>
+                        {{-- @elseif (Auth::user()->id_role == 2)
+                            <a href='{{ route('admin.anggota.create') }}' class="btn btn-primary">+ Tambah Data</a> --}}
                         @else
-                            <a href='{{ route('pegawai.anggota.create') }}' class="btn btn-primary">+ Tambah Data</a>
+                            <a href='{{ route('admin.anggota.create') }}' class="btn btn-primary">+ Tambah Data</a>
                         @endif
                     </div>
                     <div class="pb-2">
                         @if (Auth::user()->id_role == 1)
-                            <a href='{{ route('admin.anggota.export') }}' class="btn btn-secondary">Cetak PDF</a>
-                        @elseif (Auth::user()->id_role == 2)
-                            <a href='{{ route('anggota.export') }}' class="btn btn-secondary">Cetak PDF</a>
+                            <a href='{{ route('superadmin.anggota.export') }}' class="btn btn-secondary">Cetak PDF</a>
+                        {{-- @elseif (Auth::user()->id_role == 2)
+                            <a href='{{ route('anggota.export') }}' class="btn btn-secondary">Cetak PDF</a> --}}
                         @else
-                            <a href='{{ route('pegawai.anggota.export') }}' class="btn btn-secondary">Cetak PDF</a>
+                            <a href='{{ route('admin.anggota.export') }}' class="btn btn-secondary">Cetak PDF</a>
                         @endif
                     </div>
                 </div>
@@ -81,7 +81,7 @@
                         ordering: true,
                         responsive: true,
                         serverSide: true,
-                        ajax: "{{ route('admin.anggota') }}",
+                        ajax: "{{ route('superadmin.anggota') }}",
                         columns: [{
                                 data: 'DT_RowIndex',
                                 name: 'DT_RowIndex'
@@ -115,12 +115,12 @@
                                 render: function(data) {
                                     return '<div class="row justify-content-center">' +
                                         '<div class="col-auto">' +
-                                        '<a href="{{ route('admin.anggota.edit', '') }}/' + data
+                                        '<a href="{{ route('superadmin.anggota.edit', '') }}/' + data
                                         .id_anggota +
                                         '" style="font-size: 10pt" class="btn btn-warning m-1 edit-btn" ' +
                                         'data-id="' + data.id +
                                         '">Edit</a>' +
-                                        '<a href="{{ route('admin.anggota.destroy', '') }}/' + data
+                                        '<a href="{{ route('superadmin.anggota.destroy', '') }}/' + data
                                         .id_anggota +
                                         '" style="font-size: 10pt" class="btn btn-danger m-1 delete-btn" ' +
                                         'data-id="' + data.id +
@@ -162,7 +162,7 @@
                         ordering: true,
                         responsive: true,
                         serverSide: true,
-                        ajax: "{{ route('anggota') }}",
+                        ajax: "{{ route('admin.anggota') }}",
                         columns: [{
                                 data: 'DT_RowIndex',
                                 name: 'DT_RowIndex'
@@ -196,16 +196,10 @@
                                 render: function(data) {
                                     return '<div class="row justify-content-center">' +
                                         '<div class="col-auto">' +
-                                        '<a href="{{ route('anggota.edit', '') }}/' + data.id_anggota +
+                                        '<a href="{{ route('admin.anggota.edit', '') }}/' + data.id_anggota +
                                         '" style="font-size: 10pt" class="btn btn-warning m-1 edit-btn" ' +
                                         'data-id="' + data.id +
                                         '">Edit</a>' +
-                                        '<div class="col-auto">' +
-                                        '<a href="{{ route('anggota.destroy', '') }}/' + data.id_anggota +
-                                        '" style="font-size: 10pt" class="btn btn-danger m-1 delete-btn" ' +
-                                        'data-id="' + data.id +
-                                        '">Hapus</a>' +
-                                        '</div>' +
                                         '</div>' +
                                         '</div>';
                                 }

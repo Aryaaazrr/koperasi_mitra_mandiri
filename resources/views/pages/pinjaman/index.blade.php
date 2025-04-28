@@ -23,21 +23,21 @@
                 <div class="p-0">
                     <div class="d-flex justify-content-between">
                         <div class="p-0">
-                            @if (Auth::user()->id_role == 2)
-                                <a href='{{ route('pinjaman.create') }}'
+                            @if (Auth::user()->id_role == 1)
+                                <a href='{{ route('superadmin.pinjaman.create') }}'
                                     class="btn
                             btn-primary">+ Tambah Data</a>
                             @else
-                                <a href='{{ route('pegawai.pinjaman.create') }}' class="btn btn-primary">+ Tambah Data</a>
+                                <a href='{{ route('admin.pinjaman.create') }}' class="btn btn-primary">+ Tambah Data</a>
                             @endif
                         </div>
                         <div class="p-0">
-                            @if (Auth::user()->id_role == 2)
+                            {{-- @if (Auth::user()->id_role == 2)
                                 <a href='{{ route('pinjaman.edit') }}' class="btn btn-danger">Kolektibilitas Kredit</a>
                             @else
                                 <a href='{{ route('pegawai.pinjaman.edit') }}' class="btn btn-danger">Kolektibilitas
                                     Kredit</a>
-                            @endif
+                            @endif --}}
                         </div>
                     </div>
                 </div>
@@ -135,7 +135,7 @@
             </script>
         @endif
 
-        @if (Auth::user()->id_role == 2)
+        @if (Auth::user()->id_role == 1)
             <script>
                 $(document).ready(function() {
                     $('#belumTable').DataTable({
@@ -143,7 +143,7 @@
                         ordering: true,
                         responsive: true,
                         serverSide: true,
-                        ajax: "{{ route('pinjaman.belum.lunas') }}",
+                        ajax: "{{ route('superadmin.pinjaman.belum.lunas') }}",
                         columns: [{
                                 data: 'DT_RowIndex',
                                 name: 'DT_RowIndex'
@@ -189,7 +189,7 @@
                                 render: function(data) {
                                     var result = '<div class="row justify-content-center">' +
                                         '<div class="col-auto">' +
-                                        '<a href="{{ route('pinjaman.show', '') }}/' + data.id_pinjaman +
+                                        '<a href="{{ route('superadmin.pinjaman.show', '') }}/' + data.id_pinjaman +
                                         '" style="font-size: 10pt" class="btn btn-secondary m-1 edit-btn" ' +
                                         'data-id="' + data.id_pinjaman +
                                         '">Lihat</a>';
@@ -214,7 +214,7 @@
                         ordering: true,
                         responsive: true,
                         serverSide: true,
-                        ajax: "{{ route('pinjaman.lunas') }}",
+                        ajax: "{{ route('superadmin.pinjaman.lunas') }}",
                         columns: [{
                                 data: 'DT_RowIndex',
                                 name: 'DT_RowIndex'
@@ -260,7 +260,7 @@
                                 render: function(data) {
                                     var result = '<div class="row justify-content-center">' +
                                         '<div class="col-auto">' +
-                                        '<a href="{{ route('pinjaman.show', '') }}/' + data.id_pinjaman +
+                                        '<a href="{{ route('superadmin.pinjaman.show', '') }}/' + data.id_pinjaman +
                                         '" style="font-size: 10pt" class="btn btn-secondary m-1 edit-btn" ' +
                                         'data-id="' + data.id_pinjaman +
                                         '">Lihat</a>';
@@ -282,93 +282,151 @@
                 });
             </script>
         @else
-            <script>
-                $(document).ready(function() {
-                    $('#myTable').DataTable({
-                        processing: true,
-                        ordering: true,
-                        responsive: true,
-                        serverSide: true,
-                        ajax: "{{ route('pegawai.pinjaman') }}",
-                        columns: [{
-                                data: 'DT_RowIndex',
-                                name: 'DT_RowIndex'
-                            },
-                            {
-                                data: 'no_pinjaman',
-                                name: 'no_pinjaman'
-                            },
-                            {
-                                data: 'nama',
-                                name: 'nama'
-                            },
-                            {
-                                data: 'total_pinjaman',
-                                name: 'total_pinjaman',
-                                render: function(data) {
-                                    return parseInt(data).toLocaleString('id-ID', {
-                                        style: 'currency',
-                                        currency: 'IDR'
-                                    });
-                                }
-                            },
-                            {
-                                data: 'angsuran',
-                                name: 'angsuran'
-                            },
-                            {
-                                data: 'sisa_lancar_keseluruhan',
-                                name: 'sisa_lancar_keseluruhan',
-                                render: function(data) {
-                                    return parseInt(data).toLocaleString('id-ID', {
-                                        style: 'currency',
-                                        currency: 'IDR'
-                                    });
-                                }
-                            },
-                            {
-                                data: 'status_pinjaman',
-                                name: 'status_pinjaman'
-                            },
-                            {
-                                data: null,
-                                render: function(data) {
-                                    return '<div class="row justify-content-center">' +
-                                        '<div class="col-auto">' +
-                                        '<a href="{{ route('pegawai.pinjaman.show', '') }}/' + data
-                                        .id_pinjaman +
-                                        '" style="font-size: 10pt" class="btn btn-warning m-1 edit-btn" ' +
-                                        'data-id="' + data.id +
-                                        '">Lihat</a>' +
-                                        '</div>' +
-                                        '</div>';
-                                }
+        <script>
+            $(document).ready(function() {
+                $('#belumTable').DataTable({
+                    processing: true,
+                    ordering: true,
+                    responsive: true,
+                    serverSide: true,
+                    ajax: "{{ route('admin.pinjaman.belum.lunas') }}",
+                    columns: [{
+                            data: 'DT_RowIndex',
+                            name: 'DT_RowIndex'
+                        },
+                        {
+                            data: 'no_pinjaman',
+                            name: 'no_pinjaman'
+                        },
+                        {
+                            data: 'nama',
+                            name: 'nama'
+                        },
+                        {
+                            data: 'total_pinjaman',
+                            name: 'total_pinjaman',
+                            render: function(data) {
+                                return parseInt(data).toLocaleString('id-ID', {
+                                    style: 'currency',
+                                    currency: 'IDR'
+                                });
                             }
-                        ],
-                        order: [
-                            [0, 'desc']
-                        ],
-                        rowCallback: function(row, data, index) {
-                            var dt = this.api();
-                            $(row).attr('data-id', data.id);
-                            $('td:eq(0)', row).html(dt.page.info().start + index + 1);
+                        },
+                        {
+                            data: 'angsuran',
+                            name: 'angsuran'
+                        },
+                        {
+                            data: 'sisa_lancar_keseluruhan',
+                            name: 'sisa_lancar_keseluruhan',
+                            render: function(data) {
+                                return parseInt(data).toLocaleString('id-ID', {
+                                    style: 'currency',
+                                    currency: 'IDR'
+                                });
+                            }
+                        },
+                        {
+                            data: 'status_pinjaman',
+                            name: 'status_pinjaman'
+                        },
+                        {
+                            data: null,
+                            render: function(data) {
+                                var result = '<div class="row justify-content-center">' +
+                                    '<div class="col-auto">' +
+                                    '<a href="{{ route('superadmin.pinjaman.show', '') }}/' + data.id_pinjaman +
+                                    '" style="font-size: 10pt" class="btn btn-secondary m-1 edit-btn" ' +
+                                    'data-id="' + data.id_pinjaman +
+                                    '">Lihat</a>';
+                                result += '</div>' +
+                                    '</div>';
+                                return result;
+                            }
                         }
-                    });
-
-                    $('.datatable-input').on('input', function() {
-                        var searchText = $(this).val().toLowerCase();
-
-                        $('.table tr').each(function() {
-                            var rowData = $(this).text().toLowerCase();
-                            if (rowData.indexOf(searchText) === -1) {
-                                $(this).hide();
-                            } else {
-                                $(this).show();
-                            }
-                        });
-                    });
+                    ],
+                    order: [
+                        [0, 'desc']
+                    ],
+                    rowCallback: function(row, data, index) {
+                        var dt = this.api();
+                        $(row).attr('data-id', data.id);
+                        $('td:eq(0)', row).html(dt.page.info().start + index + 1);
+                    }
                 });
-            </script>
+
+                $('#lunasTable').DataTable({
+                    processing: true,
+                    ordering: true,
+                    responsive: true,
+                    serverSide: true,
+                    ajax: "{{ route('admin.pinjaman.lunas') }}",
+                    columns: [{
+                            data: 'DT_RowIndex',
+                            name: 'DT_RowIndex'
+                        },
+                        {
+                            data: 'no_pinjaman',
+                            name: 'no_pinjaman'
+                        },
+                        {
+                            data: 'nama',
+                            name: 'nama'
+                        },
+                        {
+                            data: 'total_pinjaman',
+                            name: 'total_pinjaman',
+                            render: function(data) {
+                                return parseInt(data).toLocaleString('id-ID', {
+                                    style: 'currency',
+                                    currency: 'IDR'
+                                });
+                            }
+                        },
+                        {
+                            data: 'angsuran',
+                            name: 'angsuran'
+                        },
+                        {
+                            data: 'sisa_lancar_keseluruhan',
+                            name: 'sisa_lancar_keseluruhan',
+                            render: function(data) {
+                                return parseInt(data).toLocaleString('id-ID', {
+                                    style: 'currency',
+                                    currency: 'IDR'
+                                });
+                            }
+                        },
+                        {
+                            data: 'status_pinjaman',
+                            name: 'status_pinjaman'
+                        },
+                        {
+                            data: null,
+                            render: function(data) {
+                                var result = '<div class="row justify-content-center">' +
+                                    '<div class="col-auto">' +
+                                    '<a href="{{ route('admin.pinjaman.show', '') }}/' + data.id_pinjaman +
+                                    '" style="font-size: 10pt" class="btn btn-secondary m-1 edit-btn" ' +
+                                    'data-id="' + data.id_pinjaman +
+                                    '">Lihat</a>';
+                                result += '</div>' +
+                                    '</div>';
+                                return result;
+                            }
+                        }
+                    ],
+                    order: [
+                        [0, 'desc']
+                    ],
+                    rowCallback: function(row, data, index) {
+                        var dt = this.api();
+                        $(row).attr('data-id', data.id);
+                        $('td:eq(0)', row).html(dt.page.info().start + index + 1);
+                    }
+                });
+            });
+        </script>
         @endif
     </body>
 @endsection

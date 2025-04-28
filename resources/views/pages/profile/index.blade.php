@@ -16,17 +16,17 @@
                         </div>
                         <div class="card-body">
                             @if (Auth::user()->id_role == 1)
-                                <form action="{{ route('admin.profile.update', Auth::user()->id_users) }}" method='POST'
+                                <form action="{{ route('superadmin.profile.update', Auth::user()->id_users) }}" method='POST'
                                     enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
                                 @elseif (Auth::user()->id_role == 2)
-                                    <form action="{{ route('profile.update', Auth::user()->id_users) }}" method='POST'
+                                    <form action="{{ route('admin.profile.update', Auth::user()->id_users) }}" method='POST'
                                         enctype="multipart/form-data">
                                         @csrf
                                         @method('PUT')
                                     @else
-                                        <form action="{{ route('pegawai.profile.update', Auth::user()->id_users) }}"
+                                        <form action="{{ route('profile.update', Auth::user()->id_users) }}"
                                             method='POST' enctype="multipart/form-data">
                                             @csrf
                                             @method('PUT')
@@ -104,7 +104,7 @@
                                 @endif
                             </div>
                             <hr class="horizontal dark">
-                            @if (Auth::user()->id_role != 3)
+                            {{-- @if (Auth::user()->id_role != 3) --}}
                                 <div class="row mt-4">
                                     <div class="col-md-12 text-end">
                                         <div class="form-group">
@@ -112,7 +112,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endif
+                            {{-- @endif --}}
                             </form>
                         </div>
                     </div>

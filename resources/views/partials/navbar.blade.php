@@ -30,11 +30,11 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-lg-end">
                         @if (Auth::user()->id_role == 1)
-                            <li><a class="dropdown-item" href="{{ route('admin.profile') }}">Profile</a></li>
+                            <li><a class="dropdown-item" href="{{ route('superadmin.profile') }}">Profile</a></li>
                         @elseif (Auth::user()->id_role == 2)
-                            <li><a class="dropdown-item" href="{{ route('profile') }}">Profile</a></li>
+                            <li><a class="dropdown-item" href="{{ route('admin.profile') }}">Profile</a></li>
                         @else
-                            <li><a class="dropdown-item" href="{{ route('pegawai.profile') }}">Profile</a></li>
+                            <li><a class="dropdown-item" href="{{ route('profile') }}">Profile</a></li>
                         @endif
                         <li><a class="dropdown-item" href="{{ route('logout') }}">Logout</a></li>
                     </ul>
