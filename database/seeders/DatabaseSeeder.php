@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use Anggota\Seeders\AnggotaSeeder;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -43,11 +44,9 @@ class DatabaseSeeder extends Seeder
             'password'          => Hash::make('p4ssword'),
             'id_role'           => 2,
         ]);
-        User::factory()->create([
-            'nama'              => 'Anggota',
-            'username'          => 'anggota',
-            'password'          => Hash::make('p4ssword'),
-            'id_role'           => 3,
-        ]);
+
+        // $this->call([
+        //     AnggotaSeeder::class,
+        // ]);
     }
 }
