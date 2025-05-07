@@ -95,10 +95,8 @@ class AnggotaController extends Controller
             if ($anggota->save()) {
                 if (Auth::user()->id_role == 1) {
                     return redirect()->route('superadmin.anggota')->with('success', 'Data anggota berhasil disimpan.');
-                } elseif (Auth::user()->id_role == 2) {
-                    return redirect()->route('anggota')->with('success', 'Data anggota berhasil disimpan.');
                 } else {
-                    return redirect()->route('pegawai.anggota')->with('success', 'Data anggota berhasil disimpan.');
+                    return redirect()->route('admin.anggota')->with('success', 'Data anggota berhasil disimpan.');
                 }
             } else {
                 return response()->json(['message' => 'Gagal menambahkan data anggota'], 500);
@@ -163,10 +161,8 @@ class AnggotaController extends Controller
         if ($anggota->save()) {
             if (Auth::user()->id_role == 1) {
                 return redirect()->route('superadmin.anggota')->with('success', 'Data Anggota berhasil diperbarui.');
-            } elseif (Auth::user()->id_role == 2) {
-                return redirect()->route('anggota')->with('success', 'Data Anggota berhasil diperbarui.');
             } else {
-                return redirect()->route('pegawai.anggota')->with('success', 'Data Anggota berhasil diperbarui.');
+                return redirect()->route('admin.anggota')->with('success', 'Data Anggota berhasil diperbarui.');
             }
         } else {
             return response()->json(['message' => 'Terjadi kesalahan saat menambahkan data'], 500);
@@ -184,10 +180,8 @@ class AnggotaController extends Controller
             if ($user->delete()) {
                 if (Auth::user()->id_role == 1) {
                     return redirect()->route('superadmin.anggota')->with('success', 'Data anggota berhasil dihapus.');
-                } elseif (Auth::user()->id_role == 2) {
-                    return redirect()->route('anggota')->with('success', 'Data anggota berhasil dihapus.');
                 } else {
-                    return redirect()->route('pegawai.anggota')->with('success', 'Data anggota berhasil dihapus.');
+                    return redirect()->route('admin.anggota')->with('success', 'Data anggota berhasil dihapus.');
                 }
             } else {
                 return response()->json(['message' => 'Terjadi kesalahan saat menghapus data'], 500);

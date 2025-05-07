@@ -224,6 +224,12 @@
                         {
                             data: null,
                             render: function(data) {
+                                var nominal;
+                                if (data.jenis_anggota == 'Pendiri') {
+                                    nominal = 500000;
+                                } else {
+                                    nominal = 100000;
+                                }
                                 return '<div class="row justify-content-center">' +
                                     '<div class="col-auto">' +
                                     '<button type="button" class="btn btn-primary m-1" data-bs-toggle="modal" data-bs-target="#basicModal' +
@@ -262,7 +268,8 @@
                                     '<div class="col-sm-12">' +
                                     '<input type="text" class="form-control nominal" id="nominal' + data
                                     .id_anggota +
-                                    '" name="nominal" placeholder="Masukkan Nominal" required pattern="[0-9]*">' +
+                                    '" name="nominal" value="' + nominal +
+                                    '" required readonly pattern="[0-9]*">' +
                                     '</div>' +
                                     '</div>' +
                                     '</form>' +

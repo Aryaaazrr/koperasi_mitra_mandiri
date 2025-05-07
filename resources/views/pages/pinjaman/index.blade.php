@@ -337,7 +337,7 @@
                                 render: function(data) {
                                     var result = '<div class="row justify-content-center">' +
                                         '<div class="col-auto">' +
-                                        '<a href="{{ route('aadmin.pinjaman.show', '') }}/' + data
+                                        '<a href="{{ route('admin.pinjaman.show', '') }}/' + data
                                         .id_pinjaman +
                                         '" style="font-size: 10pt" class="btn btn-secondary m-1 edit-btn" ' +
                                         'data-id="' + data.id_pinjaman +

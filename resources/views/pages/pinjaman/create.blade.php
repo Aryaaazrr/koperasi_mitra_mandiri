@@ -10,7 +10,7 @@
             @if (Auth::user()->id_role == 1)
                 <a href="{{ route('superadmin.pinjaman') }}" class="btn btn-secondary">Kembali</a>
             @else
-                <a href="{{ route('pegawai.pinjaman') }}" class="btn btn-secondary">Kembali</a>
+                <a href="{{ route('admin.pinjaman') }}" class="btn btn-secondary">Kembali</a>
             @endif
             <div class="table-responsive p-0">
                 <table class="table table-hover table-bordered align-items-center" id="myTable">
@@ -181,7 +181,7 @@
                     ordering: true,
                     responsive: true,
                     serverSide: true,
-                    ajax: "{{ route('pegawai.anggota') }}",
+                    ajax: "{{ route('admin.anggota') }}",
                     columns: [{
                             data: 'DT_RowIndex',
                             name: 'DT_RowIndex'
