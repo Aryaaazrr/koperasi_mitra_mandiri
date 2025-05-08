@@ -82,9 +82,9 @@
 <body>
     <div class="header">
         <h1>KOPERASI SIMPAN PINJAM</h1>
-        <h1>"BANGUN KARYA DESA"</h1>
+        <h1>"MITRA MANDIRI"</h1>
         <p>BH Nomor : AHU-000032.AH.01.26.TAHUN 2019, 15-11-2019</p>
-        <p>Jl. Sunan Muria no.34 001/003 Kebonsari Wetan, Kec. Kanigaran</p>
+        <p>Jl. Raya Kosambi-Telagasari Perum Mustika Prakarsa Blok C2 No.7</p>
     </div>
 
     <div class="content">
@@ -161,9 +161,9 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>DWI ARIYANTI</td>
-                    <td>SETYOWATI</td>
-                    <td>SRI ISMANINGSIH</td>
+                    <td>WARYONO</td>
+                    <td>TARKIM</td>
+                    <td>FEBBY MAHA ZULFA</td>
                 </tr>
             </tbody>
         </table>

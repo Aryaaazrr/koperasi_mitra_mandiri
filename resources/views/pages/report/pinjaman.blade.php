@@ -79,13 +79,13 @@
 <body>
     <div class="header">
         <h1>KOPERASI SIMPAN PINJAM</h1>
-        <h1>"BANGUN KARYA DESA"</h1>
+        <h1>"MITRA MANDIRI"</h1>
         <p>BH Nomor : AHU-000032.AH.01.26.TAHUN 2019, 15-11-2019</p>
-        <p>Jl. Sunan Muria no.34 001/003 Kebonsari Wetan, Kec. Kanigaran</p>
+        <p>Jl. Raya Kosambi-Telagasari Perum Mustika Prakarsa Blok C2 No.7</p>
     </div>
     <div class="content">
         <h3>DATA PINJAMAN ANGGOTA</h3>
-        <h3>KSP BANGUN KARYA DESA</h3>
+        <h3>KSP MITRA MANDIRI</h3>
         @foreach ($pinjaman as $value)
             <table class="table" style="border: none">
                 <tbody style="border: none">
@@ -97,7 +97,7 @@
                     </tr>
                     <tr>
                         <td style="width: 25%; border: none">Nama Anggota</td>
-                        <td style="width: 25%; border: none; text-align: left">: {{ $value->anggota->nama }}</td>
+                        <td style="width: 25%; border: none; text-align: left">: {{ $value->anggota->users->nama }}</td>
                         <td style="width: 25%; border: none">Tanggal Realisasi</td>
                         <td style="width: 25%; border: none; text-align: left">: {{ $value->tanggal_realisasi }}</td>
                     </tr>
@@ -154,9 +154,9 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>DWI ARIYANTI</td>
-                    <td>SETYOWATI</td>
-                    <td>SRI ISMANINGSIH</td>
+                    <td>WARYONO</td>
+                    <td>TARKIM</td>
+                    <td>FEBBY MAHA ZULFA</td>
                 </tr>
             </tbody>
         </table>

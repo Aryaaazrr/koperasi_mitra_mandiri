@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 
@@ -129,8 +130,15 @@ class LaporanController extends Controller
         if ($laporan->keterangan == 'Pendapatan Bunga') {
             return back()->withErrors(['error' => 'Pendapatan bunga tidak dapat dihapus']);
         }
-        $laporan->delete();
-        return redirect()->route('superadmin.laporan')->with('success', 'Data Laporan berhasil dihapus');
+
+        if ($laporan->delete()) {
+            if (Auth::user()->id_role == 1) {
+                return redirect()->route('superadmin.laporan')->with('success', 'Data Laporan berhasil dihapus');
+            } else {
+                return redirect()->route('admin.laporan')->with('success', 'Data Laporan berhasil dihapus');
+
+            }
+        }
     }
 
     public function export(Request $request)

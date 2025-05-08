@@ -195,7 +195,7 @@ class AnggotaController extends Controller
     {
         $data = anggota::count();
         if ($data != 0) {
-            $anggota = anggota::all();
+            $anggota = anggota::with('users')->get();
             $tahun = Carbon::now()->format('Y');
             $html = view('pages.report.anggota', compact('anggota', 'tahun'))->render();
 

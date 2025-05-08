@@ -39,7 +39,7 @@
                                 <th class="text-center">Keterangan</th>
                                 <th class="text-center">Klasifikasi</th>
                                 <th class="text-center">Nominal</th>
-                                @if (Auth::user()->id_role == 2)
+                                @if (Auth::user()->id_role != 3)
                                     <th class="text-center">Aksi</th>
                                 @endif
                             </tr>
@@ -166,7 +166,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            @if (Auth::user()->id_role == 2)
+                            @if (Auth::user()->id_role == 1)
                                 <button type="submit" class="btn btn-success">Simpan</button>
                             @endif
                         </div>

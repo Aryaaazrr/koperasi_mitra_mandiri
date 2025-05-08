@@ -131,11 +131,11 @@
                                     '</div>' +
                                     '<div class="mb-3 row">' +
                                     '<label for="bunga' + data.id_anggota +
-                                    '" class="col-sm-2 col-form-label">Bunga Pinjaman</label>' +
+                                    '" class="col-sm-2 col-form-label">Bunga Pinjaman (%)</label>' +
                                     '<div class="col-sm-12">' +
                                     '<input type="number" class="form-control" id="bunga' +
                                     data.id_anggota +
-                                    '" name="bunga_pinjaman" max="100" min="1" placeholder="Masukkan Bunga Pinjaman" required>' +
+                                    '" name="bunga_pinjaman" value="5" placeholder="Masukkan Bunga Pinjaman" readonly required>' +
                                     '</div>' +
                                     '</div>' +
                                     '</form>' +
@@ -199,10 +199,6 @@
                             name: 'nama'
                         },
                         {
-                            data: 'tanggal_masuk',
-                            name: 'tanggal_masuk'
-                        },
-                        {
                             data: 'alamat',
                             name: 'alamat'
                         },
@@ -231,7 +227,7 @@
                                     '</div>' +
                                     '<div class="modal-body text-start">' +
                                     '<form id="formPinjaman' + data.id_anggota +
-                                    '" action="{{ route('pinjaman.store') }}" method="POST" enctype="multipart/form-data">' +
+                                    '" action="{{ route('superadmin.pinjaman.store') }}" method="POST" enctype="multipart/form-data">' +
                                     '@csrf' +
                                     '<input type="hidden" class="form-control" id="id_anggota" name="id_anggota" value="' +
                                     data.id_anggota + '" required>' +
@@ -255,11 +251,11 @@
                                     '</div>' +
                                     '<div class="mb-3 row">' +
                                     '<label for="bunga' + data.id_anggota +
-                                    '" class="col-sm-2 col-form-label">Bunga Pinjaman</label>' +
+                                    '" class="col-sm-2 col-form-label">Bunga Pinjaman (%)</label>' +
                                     '<div class="col-sm-12">' +
                                     '<input type="number" class="form-control" id="bunga' +
                                     data.id_anggota +
-                                    '" name="bunga_pinjaman" max="100" min="1" placeholder="Masukkan Bunga Pinjaman" required>' +
+                                    '" name="bunga_pinjaman" value="5" placeholder="Masukkan Bunga Pinjaman" readonly required>' +
                                     '</div>' +
                                     '</div>' +
                                     '</form>' +

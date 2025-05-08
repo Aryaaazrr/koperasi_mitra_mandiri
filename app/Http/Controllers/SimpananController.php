@@ -560,7 +560,7 @@ class SimpananController extends Controller
         $data = simpanan::find($id);
         $dataAnggota = anggota::where('id_anggota', $data->id_anggota)->first();
         if ($data) {
-            $simpanan = Simpanan::with(['anggota', 'detail_simpanan'])->where('id_simpanan', $id)->get();
+            $simpanan = Simpanan::with(['anggota.users', 'detail_simpanan'])->where('id_simpanan', $id)->get();
             $detail_simpanan = DetailSimpanan::where('id_simpanan', $id)->with(['simpanan'])->get();
             $setor = DetailSimpanan::where('id_simpanan', $id)
                 ->where('jenis_transaksi', '=', 'Setor')

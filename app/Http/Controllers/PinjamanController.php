@@ -415,7 +415,7 @@ class PinjamanController extends Controller
         $data = Pinjaman::find($id);
         $dataAnggota = anggota::where('id_anggota', $data->id_anggota)->first();
         if ($data) {
-            $pinjaman = Pinjaman::where('id_pinjaman', $id)->with(['anggota', 'detail_pinjaman'])->get();
+            $pinjaman = Pinjaman::where('id_pinjaman', $id)->with(['anggota.users', 'detail_pinjaman'])->get();
             $detail_pinjaman = DetailPinjaman::where('id_pinjaman', $id)->with(['pinjaman', 'users'])->get();
             $angsuran = DetailPinjaman::where('id_pinjaman', $id)->first();
 
